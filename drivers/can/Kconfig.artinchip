@@ -1,0 +1,11 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+config CAN_ARTINCHIP
+	bool "ArtInChip CAN controller"
+	default y
+	depends on DT_HAS_ARTINCHIP_D13X_CAN_ENABLED
+	depends on CLOCK_CONTROL && RESET
+	select CAN_SJA1000
+	help
+	  Enable the SJA1000-compatible CAN controller on ArtInChip SoCs.

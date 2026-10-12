@@ -1,0 +1,10 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+config MDIO_ARTINCHIP
+	bool "ArtInChip GMAC MDIO controller"
+	default y
+	depends on DT_HAS_ARTINCHIP_D13X_MDIO_ENABLED
+	select RESET
+	help
+	  Enable Clause 22 MDIO access through the ArtInChip GMAC.

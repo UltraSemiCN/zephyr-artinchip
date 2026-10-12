@@ -1,0 +1,87 @@
+/*
+ * SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+#include <zephyr/dt-bindings/pinctrl/artinchip-d13x-pinctrl.h>
+
+&pinctrl {
+	uart0_default: uart0_default {
+		tx {
+			pinmux = <D13X_PA0_UART0_TX>;
+			bias-disable;
+			artinchip,drive-strength = <3>;
+		};
+
+		rx {
+			pinmux = <D13X_PA1_UART0_RX>;
+			bias-pull-up;
+			artinchip,drive-strength = <3>;
+		};
+	};
+
+	i2c0_default: i2c0_default {
+		group1 {
+			pinmux = <D13X_PD0_I2C0_SCL>,
+				 <D13X_PD1_I2C0_SDA>;
+			bias-disable;
+			artinchip,drive-strength = <3>;
+		};
+	};
+
+	i2c2_default: i2c2_default {
+		group1 {
+			pinmux = <D13X_PA8_I2C2_SCL>,
+				 <D13X_PA9_I2C2_SDA>;
+			bias-disable;
+			artinchip,drive-strength = <3>;
+		};
+	};
+
+	pwm2_default: pwm2_default {
+		group1 {
+			pinmux = <D13X_PE13_PWM2_A>;
+			bias-disable;
+			artinchip,drive-strength = <3>;
+		};
+	};
+
+	qspi0_default: qspi0_default {
+		group1 {
+			pinmux = <D13X_PB0_QSPI0_WP>,
+				 <D13X_PB1_QSPI0_MISO>,
+				 <D13X_PB2_QSPI0_CS0>,
+				 <D13X_PB3_QSPI0_HOLD>,
+				 <D13X_PB4_QSPI0_CLK>,
+				 <D13X_PB5_QSPI0_MOSI>;
+			bias-pull-up;
+			artinchip,drive-strength = <3>;
+		};
+	};
+
+	dvp_default: dvp_default {
+		group1 {
+			pinmux = <D13X_PE0_DVP_D0>,
+				 <D13X_PE1_DVP_D1>,
+				 <D13X_PE2_DVP_D2>,
+				 <D13X_PE3_DVP_D3>,
+				 <D13X_PE4_DVP_D4>,
+				 <D13X_PE5_DVP_D5>,
+				 <D13X_PE6_DVP_D6>,
+				 <D13X_PE7_DVP_D7>,
+				 <D13X_PE8_DVP_CK>,
+				 <D13X_PE9_DVP_HS>,
+				 <D13X_PE10_DVP_VS>;
+			bias-disable;
+			artinchip,drive-strength = <3>;
+		};
+	};
+
+	gpai2_default: gpai2-default {
+		group1 {
+			pinmux = <D13X_PA2_GPAI2>;
+			bias-disable;
+			artinchip,drive-strength = <3>;
+		};
+	};
+};

@@ -1,0 +1,26 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+description: ArtInChip D13x DMA controller
+
+compatible: "artinchip,d13x-dma"
+
+include: [dma-controller.yaml, base.yaml]
+
+properties:
+  reg:
+    required: true
+
+  interrupts:
+    required: true
+
+  dma-channels:
+    type: int
+    required: true
+    description: Number of available DMA channels
+
+  "#dma-cells":
+    const: 1
+
+dma-cells:
+  - channel

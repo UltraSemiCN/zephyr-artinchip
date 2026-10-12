@@ -1,0 +1,13 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+if SOC_FAMILY_ARTINCHIP
+
+DT_MTIMER_PATH := $(dt_nodelabel_path,mtimer)
+
+config SYS_CLOCK_HW_CYCLES_PER_SEC
+	default $(dt_node_int_prop_int,$(DT_MTIMER_PATH),clock-frequency)
+
+rsource "*/Kconfig.defconfig"
+
+endif # SOC_FAMILY_ARTINCHIP

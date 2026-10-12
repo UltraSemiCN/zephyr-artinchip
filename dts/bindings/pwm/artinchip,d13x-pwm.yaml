@@ -1,0 +1,29 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+description: ArtInChip D13x PWM controller
+
+compatible: "artinchip,d13x-pwm"
+
+include: [pwm-controller.yaml, pinctrl-device.yaml, reset-device.yaml, base.yaml]
+
+properties:
+  reg:
+    required: true
+
+  clocks:
+    required: true
+
+  resets:
+    required: true
+
+  "#pwm-cells":
+    const: 3
+
+  channels:
+    const: 4
+
+pwm-cells:
+  - channel
+  - period
+  - flags

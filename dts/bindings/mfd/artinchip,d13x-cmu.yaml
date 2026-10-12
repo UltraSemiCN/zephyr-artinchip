@@ -1,0 +1,16 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+title: ArtInChip D13x Clock Management Unit
+
+description: |
+  The D13x Clock Management Unit contains peripheral clock gates, dividers,
+  and reset controls. Child nodes represent the clock and reset controllers.
+
+compatible: "artinchip,d13x-cmu"
+
+include: base.yaml
+
+properties:
+  reg:
+    required: true

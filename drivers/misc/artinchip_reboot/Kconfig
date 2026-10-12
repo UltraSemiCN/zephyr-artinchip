@@ -1,0 +1,13 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+config ARTINCHIP_REBOOT_SHELL
+	bool "ArtInChip reboot shell commands"
+	default y if SHELL
+	depends on SHELL
+	depends on SOC_FAMILY_ARTINCHIP
+	depends on DT_HAS_ARTINCHIP_D13X_WRI_ENABLED || DT_HAS_ARTINCHIP_D21X_WRI_ENABLED
+	select REBOOT
+	help
+	  Enable ArtInChip-specific reboot commands, including UART shell
+	  helpers for entering BROM upgrade mode.

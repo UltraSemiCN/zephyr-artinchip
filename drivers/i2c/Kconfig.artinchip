@@ -1,0 +1,10 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+config I2C_ARTINCHIP
+	bool "ArtInChip I2C controller"
+	default y
+	depends on DT_HAS_ARTINCHIP_D13X_I2C_ENABLED
+	select PINCTRL
+	help
+	  Enable the polling-mode controller driver for ArtInChip I2C.

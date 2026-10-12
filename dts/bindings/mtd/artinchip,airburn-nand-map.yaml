@@ -1,0 +1,22 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi
+# SPDX-License-Identifier: Apache-2.0
+
+description: |
+  Read-only view of AirBurn MTD images. Bad erase blocks are skipped separately
+  within each fixed partition, matching the vendor USB updater. Reads never
+  cross a physical partition boundary. This is not an NFTL device.
+compatible: "artinchip,airburn-nand-map"
+include: base.yaml
+properties:
+  flash:
+    type: phandle
+    required: true
+  size-bytes:
+    type: int
+    required: true
+  erase-block-size:
+    type: int
+    required: true
+  write-block-size:
+    type: int
+    required: true

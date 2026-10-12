@@ -1,0 +1,8 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+config SOC_SERIES_D12P
+	select CACHE_MANAGEMENT
+	select CPU_XUANTIE_E907
+	select FPU
+	select RISCV

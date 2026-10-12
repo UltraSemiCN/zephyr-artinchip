@@ -1,0 +1,12 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+config ARTINCHIP_TSEN
+	bool "ArtInChip temperature sensor"
+	default y
+	depends on DT_HAS_ARTINCHIP_D13X_TSEN_ENABLED
+	depends on CLOCK_CONTROL && RESET
+	help
+	  Enable the on-chip temperature sensor controller on ArtInChip
+	  SoCs. The initial driver exposes the CPU thermal sensor using one-shot
+	  polling.

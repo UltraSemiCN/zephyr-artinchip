@@ -1,0 +1,38 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+description: ArtInChip D13x precision sampling ADC
+
+compatible: "artinchip,d13x-psadc"
+
+include:
+  - adc-controller.yaml
+  - reset-device.yaml
+
+properties:
+  reg:
+    required: true
+
+  clocks:
+    required: true
+
+  artinchip,adcim:
+    type: phandle
+    required: true
+    description: Shared ADC interface manager used for calibration
+
+  channels:
+    type: int
+    required: true
+    description: Number of implemented PSADC channels
+
+  vref-mv:
+    type: int
+    default: 3000
+    description: ADC reference voltage in millivolts
+
+  "#io-channel-cells":
+    const: 1
+
+io-channel-cells:
+  - input

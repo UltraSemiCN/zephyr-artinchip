@@ -1,0 +1,7 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+config ARTINCHIP_VE
+	bool "ArtInChip video engine"
+	default y
+	depends on DT_HAS_ARTINCHIP_D13X_VE_ENABLED
+	depends on CLOCK_CONTROL && RESET

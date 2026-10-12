@@ -1,0 +1,12 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+identifier: artinchip_d12p_demo88_nor/d125ccr
+name: ArtInChip D12P demo88-nor
+type: mcu
+arch: riscv
+toolchain:
+  - zephyr
+ram: 2048
+supported:
+  - serial

@@ -478,6 +478,31 @@ Arduino Platforms:
   labels:
     - "platform: Arduino"
 
+ArtInChip Platforms:
+  status: maintained
+  maintainers:
+    - MindShow
+  files:
+    - boards/artinchip/
+    - boards/ultrasemi/
+    - drivers/*/*artinchip*
+    - drivers/misc/artinchip*/
+    - drivers/sensor/artinchip/
+    - drivers/usb/udc/Kconfig.aic
+    - drivers/usb/udc/udc_aic*
+    - dts/bindings/*/artinchip,*
+    - dts/bindings/ethernet/mdio/artinchip,*
+    - dts/bindings/display/fitipower,ek79007ad.yaml
+    - dts/riscv/artinchip/
+    - include/zephyr/drivers/*/artinchip*
+    - include/zephyr/drivers/display/ek79007ad.h
+    - include/zephyr/dt-bindings/*/artinchip*
+    - soc/artinchip/
+  labels:
+    - "platform: ArtInChip"
+  description: >-
+    Third-party Zephyr support for ArtInChip SoCs and development boards.
+
 Authentication:
   status: maintained
   maintainers:

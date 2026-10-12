@@ -6,6 +6,17 @@
 menu "Miscellaneous drivers"
 
 # zephyr-keep-sorted-start
+source "drivers/misc/artinchip_adcim/Kconfig"
+source "drivers/misc/artinchip_axicfg/Kconfig"
+source "drivers/misc/artinchip_cir/Kconfig"
+source "drivers/misc/artinchip_ce/Kconfig"
+source "drivers/misc/artinchip_ge/Kconfig"
+source "drivers/misc/artinchip_ve/Kconfig"
+source "drivers/misc/artinchip_mtop/Kconfig"
+source "drivers/misc/artinchip_pbus/Kconfig"
+source "drivers/misc/artinchip_reboot/Kconfig"
+source "drivers/misc/artinchip_spienc/Kconfig"
+source "drivers/misc/artinchip_usb/Kconfig"
 source "drivers/misc/devmux/Kconfig"
 source "drivers/misc/esp_hosted_mcu/Kconfig"
 source "drivers/misc/ethos_u/Kconfig"

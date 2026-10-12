@@ -17,3 +17,10 @@ properties:
   clock-frequency:
     type: int
     description: Clock frequency in Hz
+  reg-io-width:
+    type: int
+    enum: [4, 8]
+    description: |
+      Maximum supported MMIO access width in bytes. Set to 4 when the timer
+      requires 32-bit accesses even on RV64. If omitted, the driver uses
+      the native CPU word width. RV32 always uses 32-bit accesses.

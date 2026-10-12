@@ -1,0 +1,18 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+config ARTINCHIP_USB
+	bool "ArtInChip USB controller bring-up"
+	default y
+	depends on DT_HAS_ARTINCHIP_D13X_USB_ENABLED
+	depends on CLOCK_CONTROL && RESET
+	help
+	  Enable low-level clock, reset, and diagnostic access for the ArtInChip
+	  USB device/host/PHY block.
+
+config ARTINCHIP_USB_SHELL
+	bool "ArtInChip USB shell commands"
+	depends on ARTINCHIP_USB
+	depends on SHELL
+	help
+	  Enable diagnostic shell commands for the ArtInChip USB block.

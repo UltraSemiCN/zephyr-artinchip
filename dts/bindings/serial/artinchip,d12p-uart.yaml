@@ -1,0 +1,24 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+description: ArtInChip D12P UART controller
+
+compatible: "artinchip,d12p-uart"
+
+include: [uart-controller.yaml, reset-device.yaml, pinctrl-device.yaml]
+
+properties:
+  reg:
+    required: true
+
+  interrupts:
+    required: true
+
+  current-speed:
+    required: true
+
+  artinchip,bootloader-configured:
+    type: boolean
+    description: |
+      The pre-boot firmware configured the UART clock, reset, pin multiplexing,
+      baud rate, framing, and FIFO before starting Zephyr.

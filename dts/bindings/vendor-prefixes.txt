@@ -85,6 +85,7 @@ arm	ARM Ltd.
 armadeus	ARMadeus Systems SARL
 armfly	Armfly
 arrow	Arrow Electronics
+artinchip	ArtInChip Technology Co., Ltd.
 artesyn	Artesyn Embedded Technologies Inc.
 asahi-kasei	Asahi Kasei Corp.
 asc	All Sensors Corporation
@@ -773,6 +774,7 @@ udoo	Udoo
 ugoos	Ugoos Industrial Co., Ltd.
 uiap	Umeta & Ikki Automotive Parts
 ultrachip	UltraChip Inc.
+ultrasemi	UltraSemi Technology Development Co., Ltd.
 uniwest	United Western Technologies Corp (UniWest)
 up-bridge-the-gap	UP Bridge the Gap
 upisemi	uPI Semiconductor Corp.
@@ -839,6 +841,7 @@ xmc	Wuhan Xinxin Semiconductor Manufacturing Co., Ltd.
 xnano	Xnano
 xptek	Shenzhen Xptek Technology Co., Ltd
 xuantie	Alibaba Xuantie
+xtx	XTX Technology Limited
 xunlong	Shenzhen Xunlong Software CO.,Limited
 xylon	Xylon
 yamaha	Yamaha Corporation

@@ -1,0 +1,16 @@
+/*
+ * SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+/ {
+	test-cmu@0 {
+		reg = <0 0x1000>;
+		clock-controller {
+			compatible = "artinchip,d13x-cctl";
+			#clock-cells = <1>;
+			clock-frequency = <1200000000>;
+			artinchip,uart0-clock-frequency = <48000000>;
+		};
+	};
+};

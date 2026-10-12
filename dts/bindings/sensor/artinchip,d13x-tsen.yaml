@@ -1,0 +1,32 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+description: ArtInChip D13x on-chip temperature sensor
+
+compatible: "artinchip,d13x-tsen"
+
+include:
+  - sensor-device.yaml
+  - reset-device.yaml
+
+properties:
+  reg:
+    required: true
+
+  clocks:
+    required: true
+
+  artinchip,channel:
+    type: int
+    required: true
+    description: Hardware temperature sensor channel
+
+  artinchip,slope:
+    type: int
+    required: true
+    description: Calibration slope scaled by 10000
+
+  artinchip,offset:
+    type: int
+    required: true
+    description: Calibration offset scaled by 10000

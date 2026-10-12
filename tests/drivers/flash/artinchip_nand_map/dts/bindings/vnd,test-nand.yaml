@@ -1,0 +1,4 @@
+# SPDX-License-Identifier: Apache-2.0
+description: NAND bad-block map test backend
+compatible: "vnd,test-nand"
+include: base.yaml

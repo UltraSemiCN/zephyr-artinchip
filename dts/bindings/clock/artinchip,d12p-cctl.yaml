@@ -1,0 +1,14 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+description: ArtInChip D12P clock controller
+
+compatible: "artinchip,d12p-cctl"
+
+include: artinchip,d13x-cctl.yaml
+
+properties:
+  artinchip,qspi-clock-frequency:
+    description: |
+      Maximum QSPI controller input clock frequency in Hz. The driver
+      selects a PLL_FRA0 divider that does not exceed this rate.

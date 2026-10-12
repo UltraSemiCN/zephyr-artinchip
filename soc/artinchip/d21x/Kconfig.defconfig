@@ -1,0 +1,27 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+if SOC_SERIES_D21X
+
+config ICACHE
+	default n
+
+config DCACHE
+	default n
+
+config NUM_IRQS
+	default 108
+
+config 2ND_LVL_ISR_TBL_OFFSET
+	default 12
+
+config 2ND_LVL_INTR_00_OFFSET
+	default 11
+
+config MAX_IRQ_PER_AGGREGATOR
+	default 96
+
+config RISCV_MACHINE_TIMER_READ_TIME_CSR
+	default y
+
+endif # SOC_SERIES_D21X

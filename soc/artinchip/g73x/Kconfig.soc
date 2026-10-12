@@ -1,0 +1,16 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+config SOC_SERIES_G73X
+	bool
+	select SOC_FAMILY_ARTINCHIP
+
+config SOC_SERIES
+	default "g73x" if SOC_SERIES_G73X
+
+config SOC_G73X
+	bool
+	select SOC_SERIES_G73X
+
+config SOC
+	default "g73x" if SOC_G73X

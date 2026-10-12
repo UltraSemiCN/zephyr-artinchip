@@ -1,0 +1,91 @@
+/*
+ * SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+/dts-v1/;
+
+#include <artinchip/d12x.dtsi>
+
+/* Luban-Lite c06865a38ca8bcffa337eee7b209651abacf45d6: target/d12x/hmi-nor. */
+/ {
+	model = "ArtInChip D12X hmi-nor";
+	compatible = "artinchip,d12x-hmi-nor";
+
+	chosen {
+		zephyr,sram = &app_ram;
+		zephyr,console = &uart1;
+		zephyr,shell-uart = &uart1;
+	};
+
+	/* Initialized by the vendor PBP before the application is loaded. */
+	app_ram: memory@40000000 {
+		compatible = "zephyr,memory-region";
+		reg = <0x40000000 0x600000>;
+		zephyr,memory-region = "APP_RAM";
+	};
+};
+
+&sram0 {
+	reg = <0x30040000 0x8000>;
+};
+
+&uart1 {
+	status = "okay";
+};
+
+/* Bootloader-owned NOR metadata, not a runtime flash driver. */
+/ {
+	aliases {
+		airburn-flash = &norflash0;
+	};
+};
+
+&qspi0 {
+	norflash0: nor-flash@0 {
+		compatible = "jedec,spi-nor";
+		reg = <0>;
+		spi-max-frequency = <DT_FREQ_M(50)>;
+		size = <0x8000000>; /* bits */
+		partitions {
+			compatible = "fixed-partitions";
+			#address-cells = <1>;
+			#size-cells = <1>;
+
+			spl_partition: partition@0 {
+				label = "spl";
+				reg = <0x0 0x80000>;
+			};
+
+			env_partition: partition@80000 {
+				label = "env";
+				reg = <0x80000 0x20000>;
+			};
+
+			env_r_partition: partition@a0000 {
+				label = "env_r";
+				reg = <0xa0000 0x20000>;
+			};
+
+			userid_partition: partition@c0000 {
+				label = "userid";
+				reg = <0xc0000 0x40000>;
+			};
+
+			os_partition: partition@100000 {
+				label = "os";
+				reg = <0x100000 0x200000>;
+			};
+
+			rodata_partition: partition@300000 {
+				label = "rodata";
+				reg = <0x300000 0x900000>;
+			};
+
+			storage_partition: partition@c00000 {
+				label = "data";
+				reg = <0xc00000 0x100000>;
+			};
+		};
+	};
+};

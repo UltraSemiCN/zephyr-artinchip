@@ -1,0 +1,28 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+config MIPI_DSI_ARTINCHIP
+	bool "ArtInChip MIPI DSI host driver"
+	default y
+	depends on DT_HAS_ARTINCHIP_D13X_MIPI_DSI_ENABLED
+	depends on CLOCK_CONTROL
+	depends on RESET
+	select PINCTRL
+	help
+	  Enable the MIPI DSI host controller driver for ArtInChip SoCs.
+
+config MIPI_DSI_ARTINCHIP_SHELL
+	bool "ArtInChip MIPI DSI shell commands"
+	depends on MIPI_DSI_ARTINCHIP
+	depends on SHELL
+	help
+	  Enable diagnostic shell commands for the ArtInChip MIPI DSI host.
+
+config MIPI_DSI_ARTINCHIP_AUTO_ENABLE_SEQUENCE
+	bool "Allow deferred panel init without DSI shell"
+	depends on MIPI_DSI_ARTINCHIP
+	help
+	  Satisfies CONFIG_EK79007AD_DEFER_PANEL_INIT when the application
+	  (or a board-level pipeline) will run the DSI display enable
+	  sequence outside of MIPI_DSI_ARTINCHIP_SHELL. Does not itself
+	  register an automatic bring-up handler.

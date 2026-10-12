@@ -1,0 +1,14 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+config SOC_SERIES_D21X
+	select RISCV
+	select FPU
+	select CPU_HAS_ICACHE
+	select CPU_HAS_DCACHE
+	select RISCV_PRIVILEGED
+	select RISCV_ISA_RV64I
+	select INCLUDE_RESET_VECTOR
+	select RISCV_HAS_PLIC
+	select RISCV_MACHINE_TIMER
+	select SOC_EARLY_INIT_HOOK

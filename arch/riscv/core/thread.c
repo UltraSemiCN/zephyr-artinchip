@@ -122,8 +122,12 @@ void arch_new_thread(struct k_thread *thread, k_thread_stack_t *stack,
 #endif
 
 #ifdef CONFIG_CLIC_SUPPORT_INTERRUPT_LEVEL
-	/* Clear the previous interrupt level. */
-	stack_init->mcause = 0;
+	/*
+	 * Clear the previous interrupt level. E907 restores MPIL to MIL on
+	 * mret only when mcause indicates an interrupt. A new thread can be
+	 * entered from an ISR, so its initial return must also restore MIL.
+	 */
+	stack_init->mcause = IS_ENABLED(CONFIG_CPU_XUANTIE_E907) ? RISCV_MCAUSE_IRQ_BIT : 0;
 #endif
 
 	thread->callee_saved.sp = (unsigned long)stack_init;

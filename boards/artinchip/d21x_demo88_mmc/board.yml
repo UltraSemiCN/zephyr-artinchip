@@ -1,0 +1,9 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+board:
+  name: artinchip_d21x_demo88_mmc
+  full_name: ArtInChip D21X demo88-mmc
+  vendor: artinchip
+  socs:
+    - name: d21x

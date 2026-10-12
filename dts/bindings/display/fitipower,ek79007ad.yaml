@@ -1,0 +1,43 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+description: Fitipower EK79007AD 1024x600 MIPI-DSI panel
+
+compatible: "fitipower,ek79007ad"
+
+include: [mipi-dsi-device.yaml, display-controller.yaml]
+
+properties:
+  reset-gpios:
+    type: phandle-array
+    description:
+      Optional panel reset GPIO. The signal is treated as active low when
+      GPIO_ACTIVE_LOW is present in the board devicetree.
+
+  bl-gpios:
+    type: phandle-array
+    description: Optional active-high backlight enable GPIO.
+
+  hfront-porch:
+    type: int
+    default: 160
+
+  hback-porch:
+    type: int
+    default: 160
+
+  hsync-len:
+    type: int
+    default: 20
+
+  vfront-porch:
+    type: int
+    default: 12
+
+  vback-porch:
+    type: int
+    default: 20
+
+  vsync-len:
+    type: int
+    default: 2

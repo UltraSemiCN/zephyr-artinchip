@@ -1,0 +1,30 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+description: ArtInChip D13x resistive touchscreen controller
+
+compatible: "artinchip,d13x-rtp"
+
+include:
+  - touchscreen-common.yaml
+  - reset-device.yaml
+
+properties:
+  reg:
+    required: true
+
+  clocks:
+    required: true
+
+  interrupts:
+    required: true
+
+  sample-period-ms:
+    type: int
+    default: 10
+    description: Period between touch samples
+
+  artinchip,delay:
+    type: int
+    default: 0
+    description: Hardware delay register value

@@ -1,0 +1,12 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+identifier: artinchip_d126_demo124_nor/d126fcv
+name: ArtInChip D12P d126-demo124-nor
+type: mcu
+arch: riscv
+toolchain:
+  - zephyr
+ram: 2048
+supported:
+  - serial

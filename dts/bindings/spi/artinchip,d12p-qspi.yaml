@@ -1,0 +1,8 @@
+# SPDX-License-Identifier: Apache-2.0
+title: ArtInChip D12P QSPI v3.4 controller
+description: |
+  Uses the standard ArtInChip FIFO register interface with a fixed divide-by-two
+  stage before the programmable clock dividers. Bootloader-configured operation
+  preserves the PBP/tinySPL clock and pin routing, including SiP flash routing.
+compatible: "artinchip,d12p-qspi"
+include: artinchip,d13x-qspi.yaml

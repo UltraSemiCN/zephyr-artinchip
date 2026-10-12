@@ -1,0 +1,17 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi
+# SPDX-License-Identifier: Apache-2.0
+
+description: ArtInChip D21x LVDS controller
+
+compatible: "artinchip,d21x-lvds"
+
+include:
+  - name: artinchip,d13x-lvds.yaml
+    property-blocklist: [link]
+
+properties:
+  link:
+    type: int
+    default: 0
+    enum: [0, 1]
+    description: Physical LVDS link used for single-link output

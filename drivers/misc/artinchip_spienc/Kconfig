@@ -1,0 +1,11 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+config ARTINCHIP_SPIENC
+	bool "ArtInChip SPI inline encryption"
+	default y
+	depends on DT_HAS_ARTINCHIP_D13X_SPIENC_ENABLED
+	depends on CLOCK_CONTROL && RESET
+	help
+	  Enable the ArtInChip inline SPI encryption path. Enabling this driver does
+	  not attach or start encryption until requested by an application.

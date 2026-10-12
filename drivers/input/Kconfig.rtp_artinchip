@@ -1,0 +1,12 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+config INPUT_ARTINCHIP_RTP
+	bool "ArtInChip resistive touchscreen controller"
+	default y
+	depends on DT_HAS_ARTINCHIP_D13X_RTP_ENABLED
+	depends on CLOCK_CONTROL && RESET
+	select INPUT_TOUCH
+	help
+	  Enable the integrated resistive touchscreen controller on ArtInChip
+	  ArtInChip SoCs.

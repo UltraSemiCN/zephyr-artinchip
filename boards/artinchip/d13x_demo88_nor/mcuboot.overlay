@@ -1,0 +1,22 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+#include "mcuboot-partitions.dtsi"
+/ {
+	chosen {
+		zephyr,sram = &mcuboot_ram;
+		zephyr,flash = &norflash0;
+		zephyr,code-partition = &spl_partition;
+		mcuboot,image-ram = &sram0;
+	};
+	/* Keep the loader clear of the PBP SRAM workspace. */
+	mcuboot_ram: boot-memory@40000100 {
+		compatible = "mmio-sram";
+		reg = <0x40000100 0x3ff00>;
+	};
+};
+/delete-node/ &sram0;
+/ {
+	sram0: memory@30080000 {
+		compatible = "mmio-sram";
+		reg = <0x30080000 0x80000>;
+	};
+};

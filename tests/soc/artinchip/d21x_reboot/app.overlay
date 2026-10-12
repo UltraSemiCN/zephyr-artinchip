@@ -1,0 +1,19 @@
+/*
+ * SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+/ {
+	cmu: syscon@1000 {
+		compatible = "syscon";
+		reg = <0x1000 0x1000>;
+	};
+	rtc: syscon@2000 {
+		compatible = "syscon";
+		reg = <0x2000 0x1000>;
+	};
+	wdt: syscon@3000 {
+		compatible = "syscon";
+		reg = <0x3000 0x1000>;
+	};
+};

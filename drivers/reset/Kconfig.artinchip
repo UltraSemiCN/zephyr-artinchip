@@ -1,0 +1,9 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+config RESET_ARTINCHIP
+	bool "ArtInChip reset controller"
+	default y
+	depends on DT_HAS_ARTINCHIP_D13X_RCTL_ENABLED
+	help
+	  Enable peripheral reset control support for ArtInChip SoCs.

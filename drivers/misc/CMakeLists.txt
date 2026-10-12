@@ -1,6 +1,17 @@
 # SPDX-License-Identifier: Apache-2.0
 
 # zephyr-keep-sorted-start
+add_subdirectory_ifdef(CONFIG_ARTINCHIP_ADCIM artinchip_adcim)
+add_subdirectory_ifdef(CONFIG_ARTINCHIP_AXICFG artinchip_axicfg)
+add_subdirectory_ifdef(CONFIG_ARTINCHIP_CIR artinchip_cir)
+add_subdirectory_ifdef(CONFIG_ARTINCHIP_CE artinchip_ce)
+add_subdirectory_ifdef(CONFIG_ARTINCHIP_GE artinchip_ge)
+add_subdirectory_ifdef(CONFIG_ARTINCHIP_VE artinchip_ve)
+add_subdirectory_ifdef(CONFIG_ARTINCHIP_MTOP artinchip_mtop)
+add_subdirectory_ifdef(CONFIG_ARTINCHIP_PBUS artinchip_pbus)
+add_subdirectory_ifdef(CONFIG_ARTINCHIP_REBOOT_SHELL artinchip_reboot)
+add_subdirectory_ifdef(CONFIG_ARTINCHIP_SPIENC artinchip_spienc)
+add_subdirectory_ifdef(CONFIG_ARTINCHIP_USB artinchip_usb)
 add_subdirectory_ifdef(CONFIG_DEVMUX devmux)
 add_subdirectory_ifdef(CONFIG_ESP_HOSTED_MCU esp_hosted_mcu)
 add_subdirectory_ifdef(CONFIG_ETHOS_U ethos_u)

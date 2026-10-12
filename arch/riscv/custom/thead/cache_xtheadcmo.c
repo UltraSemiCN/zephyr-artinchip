@@ -8,6 +8,7 @@
 #include <zephyr/kernel.h>
 #include <zephyr/cache.h>
 
+#if defined(CONFIG_DCACHE)
 int arch_dcache_invd_all(void)
 {
 	__asm__ volatile (
@@ -49,7 +50,9 @@ int arch_dcache_invd_range(void *addr_in, size_t size)
 
 	return 0;
 }
+#endif
 
+#if defined(CONFIG_ICACHE)
 int arch_icache_invd_all(void)
 {
 	__asm__ volatile (
@@ -91,7 +94,9 @@ int arch_icache_invd_range(void *addr_in, size_t size)
 
 	return 0;
 }
+#endif
 
+#if defined(CONFIG_DCACHE)
 int arch_dcache_flush_all(void)
 {
 	__asm__ volatile (
@@ -175,7 +180,9 @@ int arch_dcache_flush_and_invd_range(void *addr_in, size_t size)
 
 	return 0;
 }
+#endif
 
+#if defined(CONFIG_ICACHE)
 int arch_icache_flush_all(void)
 {
 	return -ENOTSUP;
@@ -201,3 +208,4 @@ int arch_icache_flush_and_invd_range(void *addr, size_t size)
 
 	return -ENOTSUP;
 }
+#endif

@@ -1,0 +1,224 @@
+/*
+ * SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+#include <freq.h>
+#include <mem.h>
+#include <zephyr/dt-bindings/clock/artinchip-clock.h>
+#include <zephyr/dt-bindings/reset/artinchip-reset.h>
+
+/ {
+	#address-cells = <2>;
+	#size-cells = <2>;
+	cpus {
+		#address-cells = <1>;
+		#size-cells = <0>;
+		timebase-frequency = <DT_FREQ_M(4)>;
+		cpu0: cpu@0 {
+			compatible = "xuantie,c906", "riscv";
+			device_type = "cpu";
+			reg = <0>;
+			riscv,isa-base = "rv64i";
+			riscv,isa-extensions = "i", "m", "a", "f", "d", "c",
+					       "zicsr", "zifencei", "xtheadcmo";
+			i-cache-line-size = <64>;
+			d-cache-line-size = <64>;
+			cpu0_intc: interrupt-controller {
+				compatible = "riscv,cpu-intc";
+				#address-cells = <0>;
+				#interrupt-cells = <1>;
+				interrupt-controller;
+			};
+		};
+	};
+	sram0: memory@100000 {
+		compatible = "mmio-sram";
+		reg = <0 0x100000 0 DT_SIZE_K(96)>;
+	};
+	soc {
+		compatible = "simple-bus";
+		#address-cells = <2>;
+		#size-cells = <2>;
+		ranges;
+		/* SDK: CPU_BASE, C906_CINT_BASE, and core_rv64.h. */
+		plic: interrupt-controller@20000000 {
+			compatible = "sifive,plic-1.0.0";
+			reg = <0 0x20000000 0 0x4000000>;
+			#address-cells = <0>;
+			#interrupt-cells = <2>;
+			interrupt-controller;
+			interrupts-extended = <&cpu0_intc 11>, <&cpu0_intc 9>;
+			riscv,ndev = <95>;
+			riscv,max-priority = <31>;
+		};
+		/* C906 reads time via CSR; only MTIMECMP is memory mapped. */
+		mtimer: timer@24004000 {
+			compatible = "riscv,machine-timer";
+			reg = <0 0x24004000 0 8>;
+			reg-names = "mtimecmp";
+		reg-io-width = <4>;
+			clock-frequency = <DT_FREQ_M(4)>;
+			interrupts-extended = <&cpu0_intc 7>;
+		};
+		wdt: watchdog@19000000 {
+			compatible = "artinchip,d21x-wdt";
+			reg = <0 0x19000000 0 0x1000>;
+			clocks = <&cctl ARTINCHIP_CLK_WDT>;
+			resets = <&rctl ARTINCHIP_RESET_WDT>;
+			interrupt-parent = <&plic>;
+			interrupts = <64 1>;
+			status = "disabled";
+		};
+
+		wri: reset-reason@1900f000 {
+			compatible = "artinchip,d21x-wri";
+			reg = <0 0x1900f000 0 0x1000>;
+		};
+
+		rtc: rtc@19030000 {
+			compatible = "artinchip,d21x-rtc";
+			reg = <0 0x19030000 0 0x1000>;
+			clocks = <&cctl ARTINCHIP_CLK_RTC>;
+			interrupt-parent = <&plic>;
+			interrupts = <50 1>;
+			status = "disabled";
+		};
+
+		gpioc: gpio@18700200 {
+			compatible = "artinchip,d21x-gpio", "artinchip,d13x-gpio";
+			reg = <0 0x18700200 0 0x100>;
+			clocks = <&cctl ARTINCHIP_CLK_GPIO>;
+			interrupt-parent = <&plic>;
+			interrupts = <70 1>;
+			gpio-controller;
+			#gpio-cells = <2>;
+			status = "disabled";
+		};
+
+		lvds: lvds@18810000 {
+			compatible = "artinchip,d21x-lvds", "artinchip,d13x-lvds";
+			reg = <0 0x18810000 0 0x1000>;
+			clocks = <&cctl ARTINCHIP_CLK_LVDS>;
+			resets = <&rctl ARTINCHIP_RESET_LVDS>;
+			status = "disabled";
+		};
+
+		de: display-controller@18a00000 {
+			compatible = "artinchip,d21x-de", "artinchip,d13x-de";
+			reg = <0 0x18a00000 0 0x100000>;
+			clocks = <&cctl ARTINCHIP_CLK_DE>;
+			resets = <&rctl ARTINCHIP_RESET_DE>;
+			interrupt-parent = <&plic>;
+			interrupts = <59 1>;
+			status = "disabled";
+		};
+
+		uart0: serial@18710000 {
+			compatible = "artinchip,d21x-uart", "artinchip,d13x-uart";
+			reg = <0 0x18710000 0 0x1000>;
+			interrupt-parent = <&plic>;
+			interrupts = <76 1>;
+			current-speed = <115200>;
+			clocks = <&cctl ARTINCHIP_CLK_UART0>;
+			resets = <&rctl ARTINCHIP_RESET_UART0>;
+			status = "disabled";
+		};
+		uart1: serial@18711000 {
+			compatible = "artinchip,boot-uart";
+			reg = <0 0x18711000 0 0x1000>;
+			interrupt-parent = <&plic>;
+			interrupts = <77 1>;
+			current-speed = <115200>;
+			artinchip,bootloader-configured;
+			status = "disabled";
+		};
+		uart2: serial@18712000 {
+			compatible = "artinchip,boot-uart";
+			reg = <0 0x18712000 0 0x1000>;
+			interrupt-parent = <&plic>;
+			interrupts = <78 1>;
+			current-speed = <115200>;
+			artinchip,bootloader-configured;
+			status = "disabled";
+		};
+		uart3: serial@18713000 {
+			compatible = "artinchip,boot-uart";
+			reg = <0 0x18713000 0 0x1000>;
+			interrupt-parent = <&plic>;
+			interrupts = <79 1>;
+			current-speed = <115200>;
+			artinchip,bootloader-configured;
+			status = "disabled";
+		};
+		uart4: serial@18714000 {
+			compatible = "artinchip,boot-uart";
+			reg = <0 0x18714000 0 0x1000>;
+			interrupt-parent = <&plic>;
+			interrupts = <80 1>;
+			current-speed = <115200>;
+			artinchip,bootloader-configured;
+			status = "disabled";
+		};
+		uart5: serial@18715000 {
+			compatible = "artinchip,boot-uart";
+			reg = <0 0x18715000 0 0x1000>;
+			interrupt-parent = <&plic>;
+			interrupts = <81 1>;
+			current-speed = <115200>;
+			artinchip,bootloader-configured;
+			status = "disabled";
+		};
+		uart6: serial@18716000 {
+			compatible = "artinchip,boot-uart";
+			reg = <0 0x18716000 0 0x1000>;
+			interrupt-parent = <&plic>;
+			interrupts = <82 1>;
+			current-speed = <115200>;
+			artinchip,bootloader-configured;
+			status = "disabled";
+		};
+		uart7: serial@18717000 {
+			compatible = "artinchip,boot-uart";
+			reg = <0 0x18717000 0 0x1000>;
+			interrupt-parent = <&plic>;
+			interrupts = <83 1>;
+			current-speed = <115200>;
+			artinchip,bootloader-configured;
+			status = "disabled";
+		};
+		cmu: reset-clock-controller@18020000 {
+			compatible = "artinchip,d13x-cmu";
+			reg = <0 0x18020000 0 0x1000>;
+			cctl: clock-controller {
+				compatible = "artinchip,d21x-cctl", "artinchip,d13x-cctl";
+				clock-frequency = <DT_FREQ_M(1200)>;
+				artinchip,uart0-clock-frequency = <DT_FREQ_M(48)>;
+				artinchip,qspi-clock-frequency = <DT_FREQ_M(100)>;
+				#clock-cells = <1>;
+			};
+			rctl: reset-controller {
+				compatible = "artinchip,d21x-rctl", "artinchip,d13x-rctl";
+				#reset-cells = <1>;
+			};
+		};
+		pinctrl: pinctrl@18700080 {
+			compatible = "artinchip,pinctrl";
+			reg = <0 0x18700080 0 0x448>;
+			clocks = <&cctl ARTINCHIP_CLK_GPIO>;
+			resets = <&rctl ARTINCHIP_RESET_GPIO>;
+		};
+		qspi0: spi@10400000 {
+			compatible = "artinchip,d21x-qspi", "artinchip,d13x-qspi";
+			clocks = <&cctl ARTINCHIP_CLK_QSPI0>;
+			resets = <&rctl ARTINCHIP_RESET_QSPI0>;
+			clock-frequency = <DT_FREQ_M(100)>;
+			interrupt-parent = <&plic>;
+			interrupts = <44 1>;
+			reg = <0 0x10400000 0 0x1000>;
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "disabled";
+		};
+	};
+};

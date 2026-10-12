@@ -1,0 +1,22 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+description: ArtInChip D13x eFuse/SID controller
+
+compatible: "artinchip,d13x-efuse"
+
+include:
+  - base.yaml
+  - reset-device.yaml
+
+properties:
+  reg:
+    required: true
+
+  clocks:
+    required: true
+
+  size:
+    type: int
+    required: true
+    description: Logical eFuse storage size in bytes

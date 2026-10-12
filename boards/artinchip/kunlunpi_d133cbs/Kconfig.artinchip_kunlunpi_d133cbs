@@ -1,0 +1,5 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+config BOARD_ARTINCHIP_KUNLUNPI_D133CBS
+	select SOC_D133CBS

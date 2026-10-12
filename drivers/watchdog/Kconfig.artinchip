@@ -1,0 +1,10 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+config WDT_ARTINCHIP
+	bool "ArtInChip watchdog"
+	default y
+	depends on DT_HAS_ARTINCHIP_D13X_WDT_ENABLED
+	depends on CLOCK_CONTROL && RESET
+	help
+	  Enable the watchdog driver for ArtInChip SoCs.

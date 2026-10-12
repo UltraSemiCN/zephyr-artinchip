@@ -1,0 +1,10 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+config CLOCK_CONTROL_ARTINCHIP
+	bool "ArtInChip clock control"
+	default y
+	depends on DT_HAS_ARTINCHIP_D13X_CCTL_ENABLED || DT_HAS_ARTINCHIP_D12P_CCTL_ENABLED
+	help
+	  Enable clock gate and peripheral clock rate support for ArtInChip
+	  ArtInChip SoCs.

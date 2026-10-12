@@ -1,0 +1,55 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+description: ArtInChip D13x USB controller block
+
+compatible: "artinchip,d13x-usb"
+
+include: base.yaml
+
+properties:
+  reg:
+    required: true
+
+  reg-names:
+    type: string-array
+    required: true
+
+  clocks:
+    type: phandle-array
+    required: true
+
+  clock-names:
+    type: string-array
+    required: true
+
+  resets:
+    type: phandle-array
+    required: true
+
+  reset-names:
+    type: string-array
+    required: true
+
+  interrupts:
+    required: true
+
+  interrupt-names:
+    type: string-array
+    required: true
+
+  artinchip,syscfg:
+    type: phandle
+    required: true
+    description: System configuration block containing the USB0 DRD mode bit.
+
+  dr-mode:
+    type: string
+    default: "otg"
+    enum:
+      - "host"
+      - "peripheral"
+      - "otg"
+    description:
+      USB0 default role. D13x exposes separate USBD and USBH0 register
+      windows sharing PHY0; the PHY role is selected through SYSCFG USB0_CFG.

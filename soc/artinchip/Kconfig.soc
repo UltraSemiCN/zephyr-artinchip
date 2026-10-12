@@ -1,0 +1,10 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+config SOC_FAMILY_ARTINCHIP
+	bool
+
+config SOC_FAMILY
+	default "artinchip" if SOC_FAMILY_ARTINCHIP
+
+rsource "*/Kconfig.soc"

@@ -1,0 +1,10 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+title: ArtInChip D12P Reset Controller
+
+description: Controls the active-low reset lines for D12P peripherals
+
+compatible: "artinchip,d12p-rctl"
+
+include: artinchip,d13x-rctl.yaml

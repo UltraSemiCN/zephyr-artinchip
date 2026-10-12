@@ -1,0 +1,6 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+config ARTINCHIP_AXICFG
+	bool "ArtInChip AXI bus configuration controller"
+	default y
+	depends on DT_HAS_ARTINCHIP_D13X_AXICFG_ENABLED

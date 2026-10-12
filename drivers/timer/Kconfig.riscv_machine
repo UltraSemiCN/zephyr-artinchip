@@ -17,6 +17,14 @@ config RISCV_MACHINE_TIMER
 
 if RISCV_MACHINE_TIMER
 
+config RISCV_MACHINE_TIMER_READ_TIME_CSR
+	bool
+	depends on 64BIT
+	help
+	  Read the timer counter through the time CSR instead of MMIO. The
+	  platform must allow time CSR access in machine mode. The device tree
+	  only needs the mtimecmp register in this mode. Used by ArtInChip C906.
+
 config RISCV_MACHINE_TIMER_SYSTEM_CLOCK_DIVIDER
 	int
 	default 0

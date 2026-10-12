@@ -1,0 +1,218 @@
+/*
+ * SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+/dts-v1/;
+
+#include <artinchip/d13x.dtsi>
+#include <zephyr/dt-bindings/gpio/gpio.h>
+#include <zephyr/dt-bindings/mipi_dsi/mipi_dsi.h>
+#include "artinchip_kunlunpi_d133cbs-pinctrl.dtsi"
+
+#include <zephyr/dt-bindings/input/input-event-codes.h>
+
+/ {
+	model = "ArtInChip Kunlun Pi D133CBS";
+	compatible = "artinchip,kunlunpi-d133cbs";
+
+	chosen {
+		zephyr,sram = &sram0;
+		zephyr,console = &uart0;
+		zephyr,shell-uart = &uart0;
+		zephyr,display = &de;
+		zephyr,touch = &gt911;
+		zephyr,camera = &dvp;
+	};
+
+	adc_keys: adc-keys {
+		compatible = "adc-keys";
+		io-channels = <&gpai 2>;
+		/* No key pressed: GPAI reads near Vref (luban keyadc scale 50 mV). */
+		keyup-threshold-mv = <3600>;
+		sample-period-ms = <20>;
+
+		/*
+		 * Resistor-ladder thresholds from luban-lite test-keyadc (ch2 / PA.2),
+		 * plus a 4th step interpolated for the extra key on Kunlun Pi.
+		 * Re-calibrate on hardware if needed.
+		 */
+		key_vol_up {
+			press-thresholds-mv = <497>;
+			zephyr,code = <INPUT_KEY_VOLUMEUP>;
+		};
+
+		key_menu {
+			press-thresholds-mv = <1351>;
+			zephyr,code = <INPUT_KEY_MENU>;
+		};
+
+		key_home {
+			press-thresholds-mv = <2200>;
+			zephyr,code = <INPUT_KEY_HOME>;
+		};
+
+		key_back {
+			press-thresholds-mv = <3340>;
+			zephyr,code = <INPUT_KEY_BACK>;
+		};
+	};
+
+	psram0: memory@40000000 {
+		compatible = "zephyr,memory-region";
+		reg = <0x40000000 DT_SIZE_M(8)>;
+		zephyr,memory-region = "PSRAM";
+	};
+};
+
+&sram0 {
+	/*
+	 * Official Kunlun Pi configuration has no TCM or SRAM-S1 and reserves
+	 * the top 256 KiB of the 1 MiB SRAM window for the bootloader.
+	 */
+	reg = <0x30040000 0xC0000>;
+};
+
+&uart0 {
+	pinctrl-0 = <&uart0_default>;
+	pinctrl-names = "default";
+	status = "okay";
+};
+
+&i2c0 {
+	pinctrl-0 = <&i2c0_default>;
+	pinctrl-names = "default";
+	status = "okay";
+};
+
+&i2c2 {
+	pinctrl-0 = <&i2c2_default>;
+	pinctrl-names = "default";
+	status = "okay";
+
+	gt911: gt911@5d {
+		compatible = "goodix,gt911";
+		reg = <0x5d>;
+		alt-addr = <0x14>;
+		reset-gpios = <&gpioa 10 GPIO_ACTIVE_LOW>;
+		irq-gpios = <&gpioa 11 GPIO_ACTIVE_HIGH>;
+		screen-width = <1024>;
+		screen-height = <600>;
+		status = "okay";
+	};
+};
+
+&pwm {
+	pinctrl-0 = <&pwm2_default>;
+	pinctrl-names = "default";
+	status = "okay";
+};
+
+&xspi {
+	memory-region = <&psram0>;
+	artinchip,bootloader-configured;
+	status = "okay";
+};
+
+&mipi_dsi {
+	status = "okay";
+
+	panel_7inch: panel@0 {
+		compatible = "fitipower,ek79007ad";
+		reg = <0>;
+		width = <1024>;
+		height = <600>;
+		data-lanes = <4>;
+		pixel-format = <MIPI_DSI_PIXFMT_RGB888>;
+		status = "okay";
+	};
+};
+
+&de {
+	width = <1024>;
+	height = <600>;
+	hfront-porch = <160>;
+	hback-porch = <160>;
+	hsync-len = <20>;
+	vfront-porch = <12>;
+	vback-porch = <20>;
+	vsync-len = <2>;
+	framebuffer-address = <0x40000000>;
+	framebuffer-size = <0x12c000>;
+	status = "okay";
+};
+
+&dvp {
+	pinctrl-0 = <&dvp_default>;
+	pinctrl-names = "default";
+	status = "okay";
+};
+
+&usb0 {
+	status = "okay";
+};
+
+&adcim {
+	status = "okay";
+};
+
+&gpai {
+	pinctrl-0 = <&gpai2_default>;
+	pinctrl-names = "default";
+	status = "okay";
+};
+
+/* The bootloader accesses this flash even when Zephyr's QSPI driver is disabled.
+ * Keep the complete AirBurn layout here so overlays and packaging share it.
+ */
+/ {
+	aliases {
+		airburn-flash = &norflash0;
+	};
+};
+
+&qspi0 {
+	norflash0: nor-flash@0 {
+		compatible = "jedec,spi-nor";
+		reg = <0>;
+		spi-max-frequency = <DT_FREQ_M(50)>;
+		/* jedec,spi-nor capacity is in bits: 128 Mbit = 16 MiB. */
+		size = <DT_SIZE_M(128)>;
+
+		partitions {
+			compatible = "fixed-partitions";
+			#address-cells = <1>;
+			#size-cells = <1>;
+
+			spl_partition: partition@0 {
+				label = "spl";
+				reg = <0x0 0x80000>;
+			};
+
+			env_partition: partition@80000 {
+				label = "env";
+				reg = <0x80000 0x20000>;
+			};
+
+			env_r_partition: partition@a0000 {
+				label = "env_r";
+				reg = <0xa0000 0x20000>;
+			};
+
+			os_partition: partition@c0000 {
+				label = "os";
+				reg = <0xc0000 0x200000>;
+			};
+
+			rodata_partition: partition@2c0000 {
+				label = "rodata";
+				reg = <0x2c0000 0x900000>;
+			};
+
+			storage_partition: partition@bc0000 {
+				label = "data";
+				reg = <0xbc0000 0x100000>;
+			};
+		};
+	};
+};

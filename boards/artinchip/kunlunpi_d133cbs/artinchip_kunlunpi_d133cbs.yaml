@@ -1,0 +1,16 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+identifier: artinchip_kunlunpi_d133cbs
+name: ArtInChip Kunlun Pi D133CBS
+type: mcu
+arch: riscv
+toolchain:
+  - zephyr
+ram: 768
+supported:
+  - adc
+  - gpio
+  - i2c
+  - input
+  - serial

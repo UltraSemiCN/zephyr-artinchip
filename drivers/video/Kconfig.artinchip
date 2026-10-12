@@ -1,0 +1,20 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+config VIDEO_ARTINCHIP_DVP
+	bool "ArtInChip DVP receiver"
+	default y
+	depends on DT_HAS_ARTINCHIP_D12P_DVP_ENABLED || DT_HAS_ARTINCHIP_D13X_DVP_ENABLED
+	depends on CLOCK_CONTROL
+	depends on RESET
+	select PINCTRL
+	help
+	  Enable the ArtInChip digital video port receiver for v1 and v2
+	  controller variants.
+
+config VIDEO_ARTINCHIP_DVP_SHELL
+	bool "ArtInChip DVP shell commands"
+	depends on VIDEO_ARTINCHIP_DVP
+	depends on SHELL
+	help
+	  Enable diagnostic shell commands for the ArtInChip DVP receiver.

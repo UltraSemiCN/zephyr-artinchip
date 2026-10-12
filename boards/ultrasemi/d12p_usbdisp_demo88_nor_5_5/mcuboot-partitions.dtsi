@@ -1,0 +1,44 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+/* Keep the verified flash layout; the former "os" region is reserved. */
+&os_partition {
+	reg = <0x100000 0x80000>;
+};
+
+/delete-node/ &rodata_partition;
+
+&norflash0 {
+	partitions {
+		slot0_partition: partition@180000 {
+			label = "image-0";
+			reg = <0x180000 0x280000>;
+		};
+		slot1_partition: partition@400000 {
+			label = "image-1";
+			reg = <0x400000 0x280000>;
+		};
+		rodata_partition: partition@680000 {
+			label = "rodata";
+			reg = <0x680000 0x780000>;
+		};
+	};
+};
+
+/* Use the low 8 MiB of PSRAM; keep bootloader and image RAM disjoint. */
+&psram_app {
+	reg = <0x40200000 DT_SIZE_M(6)>;
+};
+&psram0 {
+	reg = <0x40000000 DT_SIZE_M(8)>;
+};
+
+&qspi0 {
+	compatible = "artinchip,d12p-qspi", "artinchip,d13x-qspi";
+	clock-frequency = <198000000>;
+	pinctrl-0 = <&qspi0_default>;
+	pinctrl-names = "default";
+
+	status = "okay";
+};
+&norflash0 {
+	spi-max-frequency = <12000000>;
+};

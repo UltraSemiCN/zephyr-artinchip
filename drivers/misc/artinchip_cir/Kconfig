@@ -1,0 +1,10 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+config ARTINCHIP_CIR
+	bool "ArtInChip consumer infrared controller"
+	default y
+	depends on DT_HAS_ARTINCHIP_D13X_CIR_ENABLED
+	depends on CLOCK_CONTROL && RESET
+	help
+	  Enable raw infrared pulse frame reception on the ArtInChip CIR controller.

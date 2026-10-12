@@ -1,0 +1,12 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+description: ArtInChip D13x warm reset information registers
+
+compatible: "artinchip,d13x-wri"
+
+include: base.yaml
+
+properties:
+  reg:
+    required: true

@@ -1,0 +1,73 @@
+/*
+ * SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+#include "artinchip_e907.dtsi"
+
+/* sys_freq.c: drv_get_sys_freq() returns CLOCK_4M on hardware. */
+&{/cpus} {
+	timebase-frequency = <DT_FREQ_M(4)>;
+};
+
+&cpu0 {
+	riscv,isa-extensions = "i", "m", "a", "f", "c", "zicsr", "zifencei", "xtheadcmo";
+};
+
+/ {
+	soc {
+		uart0: serial@18710000 {
+			compatible = "artinchip,boot-uart";
+			reg = <0x18710000 0x1000>;
+			interrupt-parent = <&clic>;
+			interrupts = <78 1>;
+			current-speed = <115200>;
+			artinchip,bootloader-configured;
+			status = "disabled";
+		};
+		uart1: serial@18711000 {
+			compatible = "artinchip,boot-uart";
+			reg = <0x18711000 0x1000>;
+			interrupt-parent = <&clic>;
+			interrupts = <79 1>;
+			current-speed = <115200>;
+			artinchip,bootloader-configured;
+			status = "disabled";
+		};
+		uart2: serial@18712000 {
+			compatible = "artinchip,boot-uart";
+			reg = <0x18712000 0x1000>;
+			interrupt-parent = <&clic>;
+			interrupts = <80 1>;
+			current-speed = <115200>;
+			artinchip,bootloader-configured;
+			status = "disabled";
+		};
+		uart3: serial@18713000 {
+			compatible = "artinchip,boot-uart";
+			reg = <0x18713000 0x1000>;
+			interrupt-parent = <&clic>;
+			interrupts = <81 1>;
+			current-speed = <115200>;
+			artinchip,bootloader-configured;
+			status = "disabled";
+		};
+		uart4: serial@18714000 {
+			compatible = "artinchip,boot-uart";
+			reg = <0x18714000 0x1000>;
+			interrupt-parent = <&clic>;
+			interrupts = <82 1>;
+			current-speed = <115200>;
+			artinchip,bootloader-configured;
+			status = "disabled";
+		};
+		/* Storage metadata only; pre-boot firmware owns this controller. */
+		qspi0: spi@10400000 {
+			compatible = "artinchip,boot-spi";
+			reg = <0x10400000 0x1000>;
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "disabled";
+		};
+	};
+};

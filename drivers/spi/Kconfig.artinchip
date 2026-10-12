@@ -1,0 +1,13 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+config SPI_ARTINCHIP
+	bool "ArtInChip QSPI controller"
+	default y
+	depends on DT_HAS_ARTINCHIP_D13X_QSPI_ENABLED
+	select PINCTRL
+	select RESET
+	help
+	  Enable polling-mode master support for the QSPI controllers found
+	  on ArtInChip SoCs. The initial implementation supports standard
+	  single-line SPI transfers with 8-bit words.

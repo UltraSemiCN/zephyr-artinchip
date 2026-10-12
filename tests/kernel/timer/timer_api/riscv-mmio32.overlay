@@ -1,0 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+&mtimer {
+	reg-io-width = <4>;
+};

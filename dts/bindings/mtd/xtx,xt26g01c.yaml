@@ -1,0 +1,15 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi
+# SPDX-License-Identifier: Apache-2.0
+
+description: XTX XT26G01C SPI NAND with on-die ECC
+compatible: "xtx,xt26g01c"
+include: jedec,spi-nand.yaml
+properties:
+  size-bytes:
+    const: 134217728
+  plane-bytes:
+    const: 134217728
+  write-block-size:
+    const: 2048
+  erase-block-size:
+    const: 131072

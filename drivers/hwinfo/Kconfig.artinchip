@@ -1,0 +1,12 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+config HWINFO_ARTINCHIP
+	bool "ArtInChip hardware information"
+	default y
+	depends on SOC_SERIES_D13X || SOC_SERIES_D12P
+	select HWINFO_HAS_DRIVER
+	help
+	  Enable reset-cause reporting from the ArtInChip WRI block, and (when
+	  the SID/eFuse node is present) device-ID reporting from the chip
+	  unique ID.

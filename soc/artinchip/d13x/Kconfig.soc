@@ -1,0 +1,26 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+config SOC_SERIES_D13X
+	bool
+	select SOC_FAMILY_ARTINCHIP
+	help
+	  Enable support for the ArtInChip D13x SoC series.
+
+config SOC_SERIES
+	default "d13x" if SOC_SERIES_D13X
+
+config SOC_D133CBS
+	bool
+	select SOC_SERIES_D13X
+
+config SOC
+	default "d133cbs" if SOC_D133CBS
+
+# Family target for SDK boards without a fixed package selection.
+config SOC_D13X
+	bool
+	select SOC_SERIES_D13X
+
+config SOC
+	default "d13x" if SOC_D13X

@@ -1,0 +1,9 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+config GPIO_ARTINCHIP
+	bool "ArtInChip GPIO driver"
+	default y
+	depends on DT_HAS_ARTINCHIP_D13X_GPIO_ENABLED || DT_HAS_ARTINCHIP_D12P_GPIO_ENABLED
+	help
+	  Enable the GPIO driver for ArtInChip SoCs.

@@ -36,6 +36,7 @@ module-str = audio codec
 source "subsys/logging/Kconfig.template.log_config"
 
 # zephyr-keep-sorted-start
+source "drivers/audio/Kconfig.artinchip"
 source "drivers/audio/Kconfig.aw88298"
 source "drivers/audio/Kconfig.codec_dummy"
 source "drivers/audio/Kconfig.cs35l5x"

@@ -1,0 +1,11 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+config I2S_ARTINCHIP
+	bool "ArtInChip I2S controller"
+	default y
+	depends on DT_HAS_ARTINCHIP_D13X_I2S_ENABLED
+	select RESET
+	help
+	  Enable the ArtInChip I2S controller. DMA-backed streaming is not
+	  implemented yet; configuration and trigger operations are supported.

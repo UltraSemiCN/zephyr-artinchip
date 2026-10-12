@@ -1,0 +1,13 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+config SDHC_ARTINCHIP
+	bool "ArtInChip SD/MMC controller"
+	default y
+	depends on DT_HAS_ARTINCHIP_D13X_SDMC_ENABLED
+	depends on CLOCK_CONTROL && RESET
+	select SDHC_SUPPORTS_NATIVE_MODE
+	select PINCTRL
+	help
+	  Enable the ArtInChip SD/MMC host controller. The initial driver
+	  uses polling PIO transfers.

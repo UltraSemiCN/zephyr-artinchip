@@ -1,0 +1,8 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+description: ArtInChip D12P GPIO port
+
+compatible: "artinchip,d12p-gpio"
+
+include: artinchip,d13x-gpio.yaml

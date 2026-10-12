@@ -1,0 +1,40 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+description: ArtInChip D13x UART controller
+
+compatible: "artinchip,d13x-uart"
+
+include: [uart-controller.yaml, reset-device.yaml, pinctrl-device.yaml]
+
+properties:
+  reg:
+    required: true
+
+  clocks:
+    required: true
+
+  resets:
+    required: true
+
+  interrupts:
+    required: true
+
+  current-speed:
+    required: true
+
+  dmas:
+    description: Optional DMA channels for async TX and RX
+
+  dma-names:
+    description: Must be "tx" and "rx" when DMA is used
+
+  artinchip,rs485-mode:
+    type: string
+    default: "rs232"
+    description: UART operating mode
+    enum:
+      - "rs232"
+      - "rs485"
+      - "rs485-compact-io"
+      - "rs485-simulation"

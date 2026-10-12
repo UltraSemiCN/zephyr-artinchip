@@ -1,0 +1,104 @@
+/*
+ * SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+#include <zephyr/dt-bindings/pinctrl/artinchip-d12p-pinctrl.h>
+#include <zephyr/dt-bindings/clock/artinchip-clock.h>
+#include <zephyr/dt-bindings/reset/artinchip-reset.h>
+#include <zephyr/dt-bindings/pinctrl/artinchip-d13x-pinctrl.h>
+
+&pinctrl {
+	clocks = <&cctl ARTINCHIP_CLK_GPIO>;
+	resets = <&rctl ARTINCHIP_RESET_GPIO>;
+	uart0_default: uart0-default {
+		group1 {
+			pinmux = <ARTINCHIP_PINMUX(ARTINCHIP_PORT_A, 0, 5)>,
+				 <ARTINCHIP_PINMUX(ARTINCHIP_PORT_A, 1, 5)>;
+			bias-pull-up;
+			artinchip,drive-strength = <2>;
+		};
+	};
+
+	rgb24_default: rgb24-default {
+		group1 {
+			pinmux = <D12P_PD0_RGB>, <D12P_PD1_RGB>,
+				 <D12P_PD2_RGB>, <D12P_PD3_RGB>,
+				 <D12P_PD4_RGB>, <D12P_PD5_RGB>,
+				 <D12P_PD6_RGB>, <D12P_PD7_RGB>,
+				 <D12P_PD8_RGB>, <D12P_PD9_RGB>,
+				 <D12P_PD10_RGB>, <D12P_PD11_RGB>,
+				 <D12P_PD12_RGB>, <D12P_PD13_RGB>,
+				 <D12P_PD14_RGB>, <D12P_PD15_RGB>,
+				 <D12P_PD16_RGB>, <D12P_PD17_RGB>,
+				 <D12P_PD18_RGB>, <D12P_PD19_RGB>,
+				 <D12P_PD20_RGB>, <D12P_PD21_RGB>,
+				 <D12P_PD22_RGB>, <D12P_PD23_RGB>,
+				 <D12P_PD24_RGB>, <D12P_PD25_RGB>,
+				 <D12P_PD26_RGB>, <D12P_PD27_RGB>;
+			bias-disable;
+			artinchip,drive-strength = <3>;
+		};
+	};
+
+	mipi_dsi_default: mipi-dsi-default {
+		group1 {
+			pinmux = <D12P_PD18_DSI_D0N>,
+				 <D12P_PD19_DSI_D0P>,
+				 <D12P_PD20_DSI_D1N>,
+				 <D12P_PD21_DSI_D1P>,
+				 <D12P_PD22_DSI_CKN>,
+				 <D12P_PD23_DSI_CKP>,
+				 <D12P_PD24_DSI_D2N>,
+				 <D12P_PD25_DSI_D2P>,
+				 <D12P_PD26_DSI_D3N>,
+				 <D12P_PD27_DSI_D3P>;
+			bias-disable;
+			artinchip,drive-strength = <3>;
+		};
+	};
+
+	i2c1_default: i2c1_default {
+		group1 {
+			pinmux = <D13X_PD2_I2C1_SCL>,
+				 <D13X_PD3_I2C1_SDA>;
+			bias-disable;
+			artinchip,drive-strength = <3>;
+		};
+	};
+
+	gpai2_default: gpai2-default {
+		group1 {
+			pinmux = <D12P_PA2_GPAI2>;
+			bias-disable;
+			artinchip,drive-strength = <3>;
+		};
+	};
+
+	qspi0_default: qspi0-default {
+		group1 {
+			pinmux = <D13X_PB0_QSPI0_WP>,
+				 <D13X_PB1_QSPI0_MISO>,
+				 <D13X_PB2_QSPI0_CS0>,
+				 <D13X_PB3_QSPI0_HOLD>,
+				 <D13X_PB4_QSPI0_CLK>,
+				 <D13X_PB5_QSPI0_MOSI>;
+			bias-pull-up;
+			artinchip,drive-strength = <3>;
+		};
+	};
+
+	/* TF card on SDMC1: PC.0–PC.5 (same as luban demo88-nor). */
+	sdmc1_default: sdmc1-default {
+		group1 {
+			pinmux = <D13X_PC0_SDC1_D1>,
+				 <D13X_PC1_SDC1_D0>,
+				 <D13X_PC2_SDC1_CLK>,
+				 <D13X_PC3_SDC1_CMD>,
+				 <D13X_PC4_SDC1_D3>,
+				 <D13X_PC5_SDC1_D2>;
+			bias-pull-up;
+			artinchip,drive-strength = <7>;
+		};
+	};
+};

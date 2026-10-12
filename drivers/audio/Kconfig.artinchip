@@ -1,0 +1,11 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+config AUDIO_CODEC_ARTINCHIP
+	bool "ArtInChip integrated audio codec"
+	default y
+	depends on DT_HAS_ARTINCHIP_D13X_CODEC_ENABLED
+	select RESET
+	help
+	  Enable playback control for the integrated ArtInChip audio codec.
+	  DMA-backed audio data transfer is not implemented yet.

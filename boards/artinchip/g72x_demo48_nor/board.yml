@@ -1,0 +1,9 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+board:
+  name: artinchip_g72x_demo48_nor
+  full_name: ArtInChip G72X demo48-nor
+  vendor: artinchip
+  socs:
+    - name: g72x

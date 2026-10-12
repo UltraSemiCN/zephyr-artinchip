@@ -1,0 +1,10 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+config DMA_ARTINCHIP
+	bool "ArtInChip DMA driver"
+	default y
+	depends on DT_HAS_ARTINCHIP_D13X_DMA_ENABLED
+	help
+	  Enable the ArtInChip DMA controller driver used by UART and
+	  other peripherals.

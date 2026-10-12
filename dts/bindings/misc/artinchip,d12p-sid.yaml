@@ -1,0 +1,20 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+description: |
+  ArtInChip D12p Secure ID (SID) / eFuse controller. Holds the factory
+  programmed chip unique ID, used by the hwinfo driver as the device ID.
+
+compatible: "artinchip,d12p-sid"
+
+include: [base.yaml, reset-device.yaml]
+
+properties:
+  reg:
+    required: true
+
+  clocks:
+    required: true
+
+  resets:
+    required: true

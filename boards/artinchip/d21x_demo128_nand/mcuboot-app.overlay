@@ -1,0 +1,11 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+#include "mcuboot-partitions.dtsi"
+/ {
+	chosen {
+		zephyr,flash = &boot_nand;
+		zephyr,code-partition = &slot0_partition;
+		mcuboot,ram-load-dev = &app_ram;
+		mcuboot,image-ram = &app_ram;
+	};
+};
+&app_ram { reg = <0 0x40200000 0 0x800000>; };

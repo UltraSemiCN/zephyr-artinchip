@@ -4,6 +4,16 @@ tests:
       - kernel
       - timer
       - userspace
+  kernel.timer.riscv_mmio32:
+    tags:
+      - kernel
+      - timer
+    platform_allow:
+      - qemu_riscv64
+    integration_platforms:
+      - qemu_riscv64
+    extra_args:
+      - DTC_OVERLAY_FILE=riscv-mmio32.overlay
   kernel.timer.sloppy_idle:
     tags:
       - kernel

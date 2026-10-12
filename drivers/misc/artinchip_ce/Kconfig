@@ -1,0 +1,10 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+config ARTINCHIP_CE
+	bool "ArtInChip crypto engine controller"
+	default y
+	depends on DT_HAS_ARTINCHIP_D13X_CE_ENABLED
+	depends on CLOCK_CONTROL && RESET
+	help
+	  Enable low-level control and status access for the ArtInChip crypto engine.

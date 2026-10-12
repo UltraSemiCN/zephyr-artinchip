@@ -1,0 +1,81 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+description: ArtInChip D13x display engine
+
+compatible: "artinchip,d13x-de"
+
+include: [display-controller.yaml, reset-device.yaml]
+
+properties:
+  reg:
+    required: true
+
+  clocks:
+    required: true
+
+  interrupts:
+    required: true
+
+  width:
+    type: int
+    required: true
+    description: Active framebuffer width in pixels
+
+  height:
+    type: int
+    required: true
+    description: Active framebuffer height in pixels
+
+  hfront-porch:
+    type: int
+    required: true
+
+  hback-porch:
+    type: int
+    required: true
+
+  hsync-len:
+    type: int
+    required: true
+
+  vfront-porch:
+    type: int
+    required: true
+
+  vback-porch:
+    type: int
+    required: true
+
+  vsync-len:
+    type: int
+    required: true
+
+  hsync-active:
+    type: boolean
+    description: HSYNC active-high polarity
+
+  vsync-active:
+    type: boolean
+    description: VSYNC active-high polarity
+
+  framebuffer-address:
+    type: int
+    required: true
+    description:
+      Physical address of a linear framebuffer. The initial driver uses this
+      as a software-visible backing store before native DE layer scanout is
+      fully configured.
+
+  framebuffer-size:
+    type: int
+    required: true
+    description: Framebuffer size in bytes
+
+  artinchip,manual-start:
+    type: boolean
+    description:
+      Register the display device without touching DE registers during boot.
+      This is useful while validating new boards where clock, reset, power, or
+      memory ownership is not yet fully proven. The hardware can be started
+      later through the ArtInChip DE shell diagnostics.

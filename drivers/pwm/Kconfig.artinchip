@@ -1,0 +1,18 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+config PWM_ARTINCHIP
+	bool "ArtInChip PWM driver"
+	default y
+	depends on DT_HAS_ARTINCHIP_D13X_PWM_ENABLED
+	select PINCTRL
+	help
+	  Enable the four-channel PWM controller on ArtInChip SoCs.
+
+config PWM_ARTINCHIP_PWMCS
+	bool "ArtInChip enhanced PWM controller"
+	default y
+	depends on DT_HAS_ARTINCHIP_D13X_PWMCS_ENABLED
+	depends on CLOCK_CONTROL && RESET
+	help
+	  Enable the enhanced PWM channels in the ArtInChip PWM control subsystem.

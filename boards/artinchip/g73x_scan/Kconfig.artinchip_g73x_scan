@@ -1,0 +1,5 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+config BOARD_ARTINCHIP_G73X_SCAN
+	select SOC_G73X

@@ -1,0 +1,44 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+family:
+  - name: artinchip
+    series:
+      - name: d11x
+        socs:
+          - name: d11x
+      - name: d12p
+        socs:
+          - name: d12p
+          - name: d121bav
+          - name: d121bbv
+          - name: d121bcv
+          - name: d122bav
+          - name: d122bbv
+          - name: d122bcv
+          - name: d123bav
+          - name: d123bbv
+          - name: d123bcv
+          - name: d125cbr
+          - name: d125ccv
+          - name: d125ccr
+          - name: d125ddr
+          - name: d125edr
+          - name: d126fbv
+          - name: d126fcv
+      - name: d12x
+        socs:
+          - name: d12x
+      - name: d13x
+        socs:
+          - name: d13x
+          - name: d133cbs
+      - name: d21x
+        socs:
+          - name: d21x
+      - name: g72x
+        socs:
+          - name: g72x
+      - name: g73x
+        socs:
+          - name: g73x

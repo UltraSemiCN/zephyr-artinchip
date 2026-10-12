@@ -1,0 +1,36 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+title: ArtInChip D13x XSPI memory controller
+
+description: |
+  ArtInChip D13x expanded serial peripheral interface used for memory-mapped
+  PSRAM. The initial Zephyr driver validates and preserves configuration
+  inherited from the pre-boot firmware.
+
+compatible: "artinchip,d13x-xspi"
+
+include: [base.yaml, reset-device.yaml]
+
+properties:
+  reg:
+    required: true
+
+  clocks:
+    required: true
+
+  resets:
+    required: true
+
+  interrupts:
+    required: true
+
+  memory-region:
+    type: phandle
+    required: true
+    description: Memory-mapped PSRAM region configured by the bootloader
+
+  artinchip,bootloader-configured:
+    type: boolean
+    required: true
+    description: Preserve XSPI protocol, DLL training, and XIP configuration

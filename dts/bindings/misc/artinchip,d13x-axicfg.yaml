@@ -1,0 +1,12 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+description: ArtInChip D13x AXI bus QoS and bandwidth controller
+
+compatible: "artinchip,d13x-axicfg"
+
+include: base.yaml
+
+properties:
+  reg:
+    required: true

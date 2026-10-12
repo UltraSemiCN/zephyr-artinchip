@@ -1,0 +1,35 @@
+/*
+ * SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+/dts-v1/;
+
+#include <artinchip/d12x.dtsi>
+
+/* Luban-Lite c06865a38ca8bcffa337eee7b209651abacf45d6: target/d12x/demo68-mmc. */
+/ {
+	model = "ArtInChip D12X demo68-mmc";
+	compatible = "artinchip,d12x-demo68-mmc";
+
+	chosen {
+		zephyr,sram = &app_ram;
+		zephyr,console = &uart1;
+		zephyr,shell-uart = &uart1;
+	};
+
+	/* Initialized by the vendor PBP before the application is loaded. */
+	app_ram: memory@40000000 {
+		compatible = "zephyr,memory-region";
+		reg = <0x40000000 0x400000>;
+		zephyr,memory-region = "APP_RAM";
+	};
+};
+
+&sram0 {
+	reg = <0x30040000 0x8000>;
+};
+
+&uart1 {
+	status = "okay";
+};

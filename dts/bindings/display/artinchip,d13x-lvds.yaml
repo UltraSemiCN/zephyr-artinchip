@@ -1,0 +1,38 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi
+# SPDX-License-Identifier: Apache-2.0
+
+description: ArtInChip D13x single-link LVDS transmitter (link 0)
+
+compatible: "artinchip,d13x-lvds"
+
+include: [base.yaml, reset-device.yaml, pinctrl-device.yaml]
+
+properties:
+  reg:
+    required: true
+  clocks:
+    required: true
+  resets:
+    required: true
+  pinctrl-0:
+    required: true
+  pinctrl-names:
+    required: true
+  display-engine:
+    type: phandle
+    required: true
+    description: Display engine supplying pixel data and panel timings
+  enable-gpios:
+    type: phandle-array
+    required: true
+    description: Panel enable signal, asserted after pixel output starts
+  data-mapping:
+    type: string
+    required: true
+    enum: [vesa-24, jeida-24, jeida-18]
+    description: LVDS pixel data mapping
+  link:
+    type: int
+    default: 0
+    enum: [0]
+    description: Physical LVDS link used for single-link output

@@ -1,0 +1,54 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+description: ArtInChip D13x RGB display output
+
+compatible: "artinchip,d13x-rgb"
+
+include: [base.yaml, pinctrl-device.yaml, reset-device.yaml]
+
+properties:
+  reg:
+    required: true
+
+  clocks:
+    required: true
+
+  artinchip,mode:
+    type: int
+    default: 0
+    description: |
+      RGB output mode. 0 selects PRGB, 1 selects SRGB, matching luban-lite
+      PRGB/SRGB values.
+
+  artinchip,format:
+    type: int
+    default: 0
+    description: |
+      RGB output format. For PRGB, 0 is 24-bit, 1 is 18-bit low-data,
+      2 is 18-bit high-data, 3 is 16-bit low-data, and 4 is 16-bit high-data.
+      For SRGB, 0 is 8-bit and 1 is 6-bit.
+
+  artinchip,data-order:
+    type: int
+    default: 0x02100210
+    description:
+      RGB output data order register value. The default is luban-lite RGB.
+
+  artinchip,clock-phase:
+    type: int
+    default: 0
+    description:
+      RGB pixel clock output phase. Values 0, 1, 2, and 3 select 0, 90,
+      180, and 270 degrees respectively.
+
+  artinchip,data-mirror:
+    type: boolean
+    description: Enable luban-lite RGB data mirror mode.
+
+  artinchip,manual-start:
+    type: boolean
+    description:
+      Register the RGB output device without enabling clocks or touching
+      registers during boot. The hardware can be started through shell
+      diagnostics.

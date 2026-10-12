@@ -1,0 +1,20 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+description: ArtInChip D13x SJA1000-compatible CAN controller
+
+compatible: "artinchip,d13x-can"
+
+include:
+  - can-controller.yaml
+  - reset-device.yaml
+
+properties:
+  reg:
+    required: true
+
+  clocks:
+    required: true
+
+  interrupts:
+    required: true

@@ -29,6 +29,7 @@ comment "Reset controller Drivers"
 
 # zephyr-keep-sorted-start
 rsource "Kconfig.arm_scmi"
+rsource "Kconfig.artinchip"
 rsource "Kconfig.aspeed"
 rsource "Kconfig.focaltech"
 rsource "Kconfig.gd32"

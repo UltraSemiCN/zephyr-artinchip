@@ -1,0 +1,339 @@
+/*
+ * SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+#include "artinchip_e907.dtsi"
+#include <zephyr/dt-bindings/clock/artinchip-clock.h>
+#include <zephyr/dt-bindings/i2c/i2c.h>
+#include <zephyr/dt-bindings/reset/artinchip-reset.h>
+
+&{/soc} {
+	cmu: reset-clock-controller@18020000 {
+		compatible = "artinchip,d12p-cmu", "artinchip,d13x-cmu";
+		reg = <0x18020000 0x1000>;
+		status = "okay";
+
+		cctl: clock-controller {
+			compatible = "artinchip,d12p-cctl", "artinchip,d13x-cctl";
+			clock-frequency = <DT_FREQ_M(1200)>;
+			artinchip,uart0-clock-frequency = <DT_FREQ_M(48)>;
+			artinchip,apb0-clock-frequency = <DT_FREQ_M(120)>;
+			artinchip,apb1-clock-frequency = <DT_FREQ_M(24)>;
+			artinchip,display-sclk-clock-frequency = <DT_FREQ_M(104)>;
+			artinchip,display-pixclk-clock-frequency = <DT_FREQ_M(52)>;
+			status = "okay";
+			#clock-cells = <1>;
+		};
+
+		rctl: reset-controller {
+			compatible = "artinchip,d12p-rctl", "artinchip,d13x-rctl";
+			status = "okay";
+			#reset-cells = <1>;
+		};
+	};
+
+	pinctrl: pinctrl@10700080 {
+		compatible = "artinchip,pinctrl";
+		reg = <0x10700080 0x448>;
+		status = "okay";
+	};
+
+	syscfg: syscon@18000000 {
+		compatible = "artinchip,d13x-syscfg";
+		reg = <0x18000000 0x1000>;
+		clocks = <&cctl ARTINCHIP_CLK_SYSCFG>;
+		resets = <&rctl ARTINCHIP_RESET_SYSCFG>;
+		status = "okay";
+	};
+
+	usbd0: usbd@10200000 {
+		compatible = "artinchip,d12p-usbd";
+		reg = <0x10200000 0x10000>;
+		clocks = <&cctl ARTINCHIP_CLK_USB_PHY0>,
+			 <&cctl ARTINCHIP_CLK_USBD>;
+		clock-names = "phy", "device";
+		resets = <&rctl ARTINCHIP_RESET_USB_PHY0>,
+			 <&rctl ARTINCHIP_RESET_USBD>;
+		reset-names = "phy", "device";
+		interrupt-parent = <&clic>;
+		interrupts = <34 1>;
+		interrupt-names = "device";
+		artinchip,syscfg = <&syscfg>;
+		/* GHWCFG values seed endpoint tables before MMIO is safe; refine on hardware. */
+		num-out-eps = <4>;
+		num-in-eps = <4>;
+		ghwcfg1 = <0x00000000>;
+		ghwcfg2 = <0x224dd930>;
+		ghwcfg4 = <0xd3f0a030>;
+		status = "disabled";
+	};
+
+	gpioa: gpio@10700000 {
+		compatible = "artinchip,d12p-gpio", "artinchip,d13x-gpio";
+		reg = <0x10700000 0x100>;
+		clocks = <&cctl ARTINCHIP_CLK_GPIO>;
+		interrupt-parent = <&clic>;
+		interrupts = <68 1>;
+		gpio-controller;
+		#gpio-cells = <2>;
+		ngpios = <12>;
+		status = "okay";
+	};
+
+	gpiob: gpio@10700100 {
+		compatible = "artinchip,d12p-gpio", "artinchip,d13x-gpio";
+		reg = <0x10700100 0x100>;
+		clocks = <&cctl ARTINCHIP_CLK_GPIO>;
+		interrupt-parent = <&clic>;
+		interrupts = <69 1>;
+		gpio-controller;
+		#gpio-cells = <2>;
+		ngpios = <19>;
+		status = "okay";
+	};
+
+	gpioc: gpio@10700200 {
+		compatible = "artinchip,d12p-gpio", "artinchip,d13x-gpio";
+		reg = <0x10700200 0x100>;
+		clocks = <&cctl ARTINCHIP_CLK_GPIO>;
+		interrupt-parent = <&clic>;
+		interrupts = <70 1>;
+		gpio-controller;
+		#gpio-cells = <2>;
+		ngpios = <12>;
+		status = "okay";
+	};
+
+	gpiod: gpio@10700300 {
+		compatible = "artinchip,d12p-gpio", "artinchip,d13x-gpio";
+		reg = <0x10700300 0x100>;
+		clocks = <&cctl ARTINCHIP_CLK_GPIO>;
+		interrupt-parent = <&clic>;
+		interrupts = <71 1>;
+		gpio-controller;
+		#gpio-cells = <2>;
+		ngpios = <28>;
+		status = "okay";
+	};
+
+	gpioe: gpio@10700400 {
+		compatible = "artinchip,d12p-gpio", "artinchip,d13x-gpio";
+		reg = <0x10700400 0x100>;
+		clocks = <&cctl ARTINCHIP_CLK_GPIO>;
+		interrupt-parent = <&clic>;
+		interrupts = <72 1>;
+		gpio-controller;
+		#gpio-cells = <2>;
+		ngpios = <18>;
+		status = "okay";
+	};
+
+	gpiof: gpio@10700500 {
+		compatible = "artinchip,d12p-gpio", "artinchip,d13x-gpio";
+		reg = <0x10700500 0x100>;
+		clocks = <&cctl ARTINCHIP_CLK_GPIO>;
+		interrupt-parent = <&clic>;
+		interrupts = <73 1>;
+		gpio-controller;
+		#gpio-cells = <2>;
+		ngpios = <2>;
+		status = "okay";
+	};
+
+	uart0: serial@18710000 {
+		compatible = "artinchip,d12p-uart";
+		reg = <0x18710000 0x1000>;
+		interrupt-parent = <&clic>;
+		interrupts = <78 1>;
+		current-speed = <115200>;
+		artinchip,bootloader-configured;
+		status = "disabled";
+	};
+
+	uart1: serial@18711000 {
+		compatible = "artinchip,d12p-uart";
+		reg = <0x18711000 0x1000>;
+		interrupt-parent = <&clic>;
+		interrupts = <79 1>;
+		current-speed = <115200>;
+		artinchip,bootloader-configured;
+		status = "disabled";
+	};
+
+	uart2: serial@18712000 {
+		compatible = "artinchip,d12p-uart";
+		reg = <0x18712000 0x1000>;
+		interrupt-parent = <&clic>;
+		interrupts = <80 1>;
+		current-speed = <115200>;
+		artinchip,bootloader-configured;
+		status = "disabled";
+	};
+
+	uart3: serial@18713000 {
+		compatible = "artinchip,d12p-uart";
+		reg = <0x18713000 0x1000>;
+		interrupt-parent = <&clic>;
+		interrupts = <81 1>;
+		current-speed = <115200>;
+		artinchip,bootloader-configured;
+		status = "disabled";
+	};
+
+	uart4: serial@18714000 {
+		compatible = "artinchip,d12p-uart";
+		reg = <0x18714000 0x1000>;
+		interrupt-parent = <&clic>;
+		interrupts = <82 1>;
+		current-speed = <115200>;
+		artinchip,bootloader-configured;
+		status = "disabled";
+	};
+
+	i2c1: i2c@18721000 {
+		compatible = "artinchip,d13x-i2c";
+		reg = <0x18721000 0x1000>;
+		clocks = <&cctl ARTINCHIP_CLK_I2C1>;
+		resets = <&rctl ARTINCHIP_RESET_I2C1>;
+		interrupt-parent = <&clic>;
+		interrupts = <127 1>;
+		clock-frequency = <I2C_BITRATE_STANDARD>;
+		#address-cells = <1>;
+		#size-cells = <0>;
+		status = "disabled";
+	};
+
+	/* IRQs match luban-lite d12p aic_soc.h (SDMC0=38, SDMC1=39). */
+	sdmc0: sdhc@10440000 {
+		compatible = "artinchip,d13x-sdmc";
+		reg = <0x10440000 0x1000>;
+		clocks = <&cctl ARTINCHIP_CLK_SDMC0>;
+		resets = <&rctl ARTINCHIP_RESET_SDMC0>;
+		interrupt-parent = <&clic>;
+		interrupts = <38 1>;
+		min-bus-freq = <400000>;
+		max-bus-freq = <50000000>;
+		bus-width = <4>;
+		status = "disabled";
+	};
+
+	sdmc1: sdhc@10450000 {
+		compatible = "artinchip,d13x-sdmc";
+		reg = <0x10450000 0x1000>;
+		clocks = <&cctl ARTINCHIP_CLK_SDMC1>;
+		resets = <&rctl ARTINCHIP_RESET_SDMC1>;
+		interrupt-parent = <&clic>;
+		interrupts = <39 1>;
+		min-bus-freq = <400000>;
+		max-bus-freq = <50000000>;
+		bus-width = <4>;
+		status = "disabled";
+	};
+
+	wdt: watchdog@19000000 {
+		compatible = "artinchip,d12p-wdt", "artinchip,d13x-wdt";
+		reg = <0x19000000 0x1000>;
+		status = "disabled";
+	};
+
+	wri: reset-reason@1900f000 {
+		compatible = "artinchip,d12p-wri", "artinchip,d13x-wri";
+		reg = <0x1900f000 0x1000>;
+		status = "okay";
+	};
+
+	sid: efuse@19010000 {
+		compatible = "artinchip,d12p-sid";
+		reg = <0x19010000 0x1000>;
+		clocks = <&cctl ARTINCHIP_CLK_SID>;
+		resets = <&rctl ARTINCHIP_RESET_SID>;
+		status = "okay";
+	};
+
+	mipi_dsi: mipi-dsi@18820000 {
+		compatible = "artinchip,d12p-mipi-dsi", "artinchip,d13x-mipi-dsi";
+		reg = <0x18820000 0x1000>;
+		clocks = <&cctl ARTINCHIP_CLK_MIPIDSI>;
+		resets = <&rctl ARTINCHIP_RESET_MIPIDSI>;
+		interrupt-parent = <&clic>;
+		interrupts = <56 1>;
+		phy-clock = <DT_FREQ_M(240)>;
+		#address-cells = <1>;
+		#size-cells = <0>;
+		status = "disabled";
+	};
+
+	rgb: rgb@18800000 {
+		compatible = "artinchip,d12p-rgb", "artinchip,d13x-rgb";
+		reg = <0x18800000 0x1000>;
+		clocks = <&cctl ARTINCHIP_CLK_RGB>;
+		resets = <&rctl ARTINCHIP_RESET_RGB>;
+		status = "disabled";
+	};
+
+	de: display-controller@18a00000 {
+		compatible = "artinchip,d12p-de", "artinchip,d13x-de";
+		reg = <0x18a00000 0x100000>;
+		clocks = <&cctl ARTINCHIP_CLK_DE>;
+		resets = <&rctl ARTINCHIP_RESET_DE>;
+		interrupt-parent = <&clic>;
+		interrupts = <59 1>;
+		width = <1024>;
+		height = <600>;
+		hfront-porch = <160>;
+		hback-porch = <160>;
+		hsync-len = <20>;
+		vfront-porch = <12>;
+		vback-porch = <20>;
+		vsync-len = <2>;
+		framebuffer-address = <0x40000000>;
+		framebuffer-size = <0x12c000>;
+		status = "disabled";
+	};
+
+	dvp: video-capture@18830000 {
+		compatible = "artinchip,d12p-dvp";
+		reg = <0x18830000 0x1000>;
+		clocks = <&cctl ARTINCHIP_CLK_DVP>;
+		resets = <&rctl ARTINCHIP_RESET_DVP>;
+		interrupt-parent = <&clic>;
+		interrupts = <57 1>;
+		data-width = <8>;
+		status = "disabled";
+	};
+
+	adcim: adc-interface@18400000 {
+		compatible = "artinchip,d13x-adcim";
+		reg = <0x18400000 0x1000>;
+		clocks = <&cctl ARTINCHIP_CLK_ADCIM>;
+		resets = <&rctl ARTINCHIP_RESET_ADCIM>;
+		status = "disabled";
+	};
+
+	gpai: adc@18401000 {
+		compatible = "artinchip,d13x-gpai";
+		reg = <0x18401000 0x1000>;
+		clocks = <&cctl ARTINCHIP_CLK_GPAI>;
+		resets = <&rctl ARTINCHIP_RESET_GPAI>;
+		artinchip,adcim = <&adcim>;
+		channels = <8>;
+		#io-channel-cells = <1>;
+		status = "disabled";
+	};
+};
+
+&{/soc} {
+	qspi0: spi@10400000 {
+		compatible = "artinchip,d13x-qspi";
+		reg = <0x10400000 0x1000>;
+		clocks = <&cctl ARTINCHIP_CLK_QSPI0>;
+		resets = <&rctl ARTINCHIP_RESET_QSPI0>;
+		interrupt-parent = <&clic>;
+		interrupts = <44 1>;
+		clock-frequency = <DT_FREQ_M(100)>;
+		#address-cells = <1>;
+		#size-cells = <0>;
+		status = "disabled";
+	};
+};

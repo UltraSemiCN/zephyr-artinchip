@@ -1,0 +1,40 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+title: ArtInChip D13x QSPI controller
+
+description: |
+  ArtInChip D13x QSPI controller used in standard single-line SPI mode.
+  The controller also supports flash-oriented dual and quad transfers,
+  which are not yet exposed by the Zephyr driver.
+
+compatible: "artinchip,d13x-qspi"
+
+include: [spi-controller.yaml, pinctrl-device.yaml, reset-device.yaml]
+
+properties:
+  reg:
+    required: true
+
+  clocks:
+    required: true
+
+  clock-frequency:
+    required: true
+    description: QSPI controller input clock frequency in Hz
+
+  interrupts:
+    required: true
+
+  pinctrl-0:
+    required: true
+
+  pinctrl-names:
+    required: true
+
+  artinchip,bootloader-configured:
+    type: boolean
+    description: |
+      Bootloader already initialized the controller. D13x skips controller reset.
+      D12P preserves the clock, pins and SoC reset line, but reinitializes the
+      controller FIFO for polling SPI.

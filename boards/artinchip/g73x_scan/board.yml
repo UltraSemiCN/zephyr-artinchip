@@ -1,0 +1,9 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+board:
+  name: artinchip_g73x_scan
+  full_name: ArtInChip G73X scan
+  vendor: artinchip
+  socs:
+    - name: g73x

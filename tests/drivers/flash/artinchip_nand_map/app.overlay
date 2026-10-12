@@ -1,0 +1,38 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+/ {
+	test_nand: test-nand { compatible = "vnd,test-nand"; };
+	test_map: nand-map {
+		compatible = "artinchip,airburn-nand-map";
+		flash = <&test_nand>;
+		size-bytes = <0x100000>;
+		erase-block-size = <0x20000>;
+		write-block-size = <2048>;
+		partitions {
+			compatible = "fixed-partitions";
+			#address-cells = <1>;
+			#size-cells = <1>;
+			partition@0 { reg = <0 0x80000>; label = "primary"; };
+			partition@80000 { reg = <0x80000 0x80000>; label = "secondary"; };
+		};
+	};
+};
+/ {
+	xtx_test_bus: spi {
+		compatible = "vnd,test-spi";
+		#address-cells = <1>;
+		#size-cells = <0>;
+		xtx_test: flash@0 {
+			compatible = "xtx,xt26g01c", "jedec,spi-nand";
+			reg = <0>;
+			spi-max-frequency = <1000000>;
+			jedec-id = [0b 11];
+			size-bytes = <0x8000000>;
+			plane-bytes = <0x8000000>;
+			write-block-size = <2048>;
+			erase-block-size = <131072>;
+			block-erase-duration-max = <20000>;
+			page-program-duration-max = <5000>;
+			page-read-duration-max = <2000>;
+		};
+	};
+};

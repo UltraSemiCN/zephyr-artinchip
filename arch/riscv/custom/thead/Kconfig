@@ -95,3 +95,10 @@ config RISCV_CUSTOM_CSR_THEAD_CMO_E907
 	default y if CACHE_MANAGEMENT
 	help
 	  This option enables the additional cache operation for XuanTie E907 cores.
+
+config RISCV_CUSTOM_CSR_THEAD_CMO_C906
+	bool
+	depends on RISCV_ISA_EXT_XTHEAD_CMO && DT_HAS_XUANTIE_C906_ENABLED
+	default y if CACHE_MANAGEMENT
+	help
+	  Enable cache control for XuanTie C906 cores.

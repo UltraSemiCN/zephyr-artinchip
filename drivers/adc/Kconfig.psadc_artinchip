@@ -1,0 +1,11 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+config ADC_PSADC_ARTINCHIP
+	bool "ArtInChip precision sampling ADC"
+	default y
+	depends on DT_HAS_ARTINCHIP_D13X_PSADC_ENABLED
+	depends on CLOCK_CONTROL && RESET
+	help
+	  Enable synchronous software-triggered queue sampling on the ArtInChip
+	  precision sampling ADC.

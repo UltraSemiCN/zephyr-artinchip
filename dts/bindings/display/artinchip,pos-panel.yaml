@@ -1,0 +1,41 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+description: ArtInChip 720x1280 multi-vendor POS MIPI-DSI panel
+
+compatible: "artinchip,pos-panel"
+
+include: [mipi-dsi-device.yaml, display-controller.yaml]
+
+properties:
+  reset-gpios:
+    type: phandle-array
+    required: true
+
+  bl-gpios:
+    type: phandle-array
+    required: true
+
+  hfront-porch:
+    type: int
+    default: 80
+
+  hback-porch:
+    type: int
+    default: 84
+
+  hsync-len:
+    type: int
+    default: 23
+
+  vfront-porch:
+    type: int
+    default: 19
+
+  vback-porch:
+    type: int
+    default: 20
+
+  vsync-len:
+    type: int
+    default: 4

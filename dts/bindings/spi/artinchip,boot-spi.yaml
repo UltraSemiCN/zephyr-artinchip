@@ -1,0 +1,12 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+description: |
+  ArtInChip QSPI storage metadata owned by pre-boot firmware. This binding
+  describes the bus for partition discovery; no runtime driver is provided.
+  The controller must remain disabled until a native driver is supplied.
+compatible: "artinchip,boot-spi"
+include: spi-controller.yaml
+properties:
+  reg:
+    required: true

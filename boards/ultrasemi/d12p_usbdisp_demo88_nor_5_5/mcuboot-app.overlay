@@ -1,0 +1,13 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+#include "mcuboot-partitions.dtsi"
+/ {
+	chosen {
+		zephyr,flash = &norflash0;
+		zephyr,code-partition = &slot0_partition;
+		mcuboot,ram-load-dev = &psram_app;
+		mcuboot,image-ram = &psram_app;
+	};
+};
+
+/* RGB565 fits below application RAM; do not advertise an overlapping buffer. */
+&de { framebuffer-size = <0x200000>; };

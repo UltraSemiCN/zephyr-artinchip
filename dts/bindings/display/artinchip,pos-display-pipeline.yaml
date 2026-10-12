@@ -1,0 +1,23 @@
+# SPDX-License-Identifier: Apache-2.0
+
+description: ArtInChip POS MIPI-DSI display pipeline coordinator
+
+compatible: "artinchip,pos-display-pipeline"
+
+include: base.yaml
+
+properties:
+  dsi-host:
+    type: phandle
+    required: true
+    description: ArtInChip MIPI DSI host controller
+
+  panel:
+    type: phandle
+    required: true
+    description: POS MIPI DSI panel device
+
+  display-engine:
+    type: phandle
+    required: true
+    description: ArtInChip display engine supplying pixels to the DSI host

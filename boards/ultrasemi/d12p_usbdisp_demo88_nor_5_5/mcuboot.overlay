@@ -1,0 +1,21 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+#include "mcuboot-partitions.dtsi"
+/ {
+	chosen {
+		zephyr,sram = &mcuboot_direct_ram;
+		zephyr,flash = &norflash0;
+		zephyr,code-partition = &spl_partition;
+		mcuboot,image-ram = &psram_app;
+		/delete-property/ zephyr,display;
+	};
+	mcuboot_direct_ram: boot-memory@40000100 {
+		compatible = "mmio-sram";
+		reg = <0x40000100 0x001fff00>;
+	};
+};
+/* PBP trains PSRAM; reserve the BROM header before the MCUboot payload. */
+/delete-node/ &psram0;
+&de { status = "disabled"; };
+&mipi_dsi { status = "disabled"; };
+&display_pipeline { status = "disabled"; };
+&i2c1 { status = "disabled"; };

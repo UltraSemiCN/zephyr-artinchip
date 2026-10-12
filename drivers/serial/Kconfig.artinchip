@@ -1,0 +1,37 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+config UART_ARTINCHIP_V14
+	bool "ArtInChip bootloader-configured UART driver"
+	default y
+	depends on (DT_HAS_ARTINCHIP_D12P_UART_ENABLED && !UART_ARTINCHIP_D12P_NATIVE) || DT_HAS_ARTINCHIP_BOOT_UART_ENABLED
+	select SERIAL_HAS_DRIVER
+	select SERIAL_SUPPORT_INTERRUPT
+	help
+	  Enable polling and interrupt-driven access to the common register subset
+	  of ArtInChip UART v1.0, v1.1, and v1.4 that has already been
+	  initialized by the pre-boot firmware. Native
+	  CMU, reset, and pinctrl initialization is not yet performed.
+
+config UART_ARTINCHIP_V11
+	bool "ArtInChip UART v1.1/v1.4 driver"
+	default y
+	depends on DT_HAS_ARTINCHIP_D13X_UART_ENABLED || UART_ARTINCHIP_D12P_NATIVE
+	depends on CLOCK_CONTROL
+	depends on RESET
+	select SERIAL_HAS_DRIVER
+	select SERIAL_SUPPORT_INTERRUPT
+	select SERIAL_SUPPORT_ASYNC
+	help
+	  Enable the ArtInChip UART v1.1/v1.4 driver. The hardware is 16550-derived
+	  with ArtInChip-specific FIFO, status, RS485, and receiver control
+	  registers. Enable CONFIG_UART_ASYNC_API and CONFIG_DMA_ARTINCHIP
+	  to use DMA-backed async transfers on UART nodes with dmas properties.
+
+config UART_ARTINCHIP_D12P_NATIVE
+	bool "Initialize D12P UART using Zephyr device APIs"
+	depends on DT_HAS_ARTINCHIP_D12P_UART_ENABLED
+	depends on CLOCK_CONTROL && RESET && PINCTRL
+	help
+	  Configure the D12P UART using its devicetree clocks, resets and
+	  pinctrl state instead of inheriting settings from boot firmware.

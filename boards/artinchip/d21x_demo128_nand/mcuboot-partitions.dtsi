@@ -1,0 +1,68 @@
+/*
+ * SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi
+ * SPDX-License-Identifier: Apache-2.0
+ */
+#include <zephyr/dt-bindings/pinctrl/artinchip-pinctrl.h>
+/ {
+	aliases { airburn-flash = &boot_nand; };
+	boot_nand: nand-map@0 {
+		/* Logical byte offsets, not a CPU-mapped NOR window. */
+		reg = <0 0 0 0x8000000>;
+		compatible = "artinchip,airburn-nand-map";
+		flash = <&nand0>;
+		write-block-size = <2048>;
+		erase-block-size = <131072>;
+		size-bytes = <0x8000000>;
+		partitions {
+			compatible = "fixed-partitions";
+			#address-cells = <1>;
+			#size-cells = <1>;
+			spl_partition: partition@0 { label = "spl"; reg = <0 0x100000>; };
+			env_partition: partition@100000 {
+				label = "env"; reg = <0x100000 0x40000>;
+			};
+			env_r_partition: partition@140000 {
+				label = "env_r"; reg = <0x140000 0x40000>;
+			};
+			slot0_partition: partition@180000 {
+				label = "image-0"; reg = <0x180000 0x400000>;
+			};
+			slot1_partition: partition@580000 {
+				label = "image-1"; reg = <0x580000 0x400000>;
+			};
+		};
+	};
+};
+&pinctrl {
+	qspi0_default: qspi0-default {
+		group1 {
+			pinmux = <ARTINCHIP_PINMUX(ARTINCHIP_PORT_B, 0, 3)>,
+				 <ARTINCHIP_PINMUX(ARTINCHIP_PORT_B, 1, 3)>,
+				 <ARTINCHIP_PINMUX(ARTINCHIP_PORT_B, 2, 3)>,
+				 <ARTINCHIP_PINMUX(ARTINCHIP_PORT_B, 3, 3)>,
+				 <ARTINCHIP_PINMUX(ARTINCHIP_PORT_B, 4, 3)>,
+				 <ARTINCHIP_PINMUX(ARTINCHIP_PORT_B, 5, 3)>;
+			bias-pull-up;
+			artinchip,drive-strength = <3>;
+		};
+	};
+};
+&qspi0 {
+	status = "okay";
+	pinctrl-0 = <&qspi0_default>;
+	pinctrl-names = "default";
+	nand0: flash@0 {
+		compatible = "xtx,xt26g01c", "jedec,spi-nand";
+		reg = <0>;
+		spi-max-frequency = <12000000>;
+		jedec-id = [0b 11];
+		size-bytes = <0x8000000>;
+		plane-bytes = <0x8000000>;
+		write-block-size = <2048>;
+		erase-block-size = <131072>;
+		/* Conservative timeout limits for initial board validation. */
+		block-erase-duration-max = <20000>;
+		page-program-duration-max = <5000>;
+		page-read-duration-max = <2000>;
+	};
+};

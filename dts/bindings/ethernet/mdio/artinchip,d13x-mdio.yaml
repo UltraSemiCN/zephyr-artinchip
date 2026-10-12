@@ -1,0 +1,8 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+description: ArtInChip D13x GMAC MDIO controller
+
+compatible: "artinchip,d13x-mdio"
+
+include: mdio-controller.yaml

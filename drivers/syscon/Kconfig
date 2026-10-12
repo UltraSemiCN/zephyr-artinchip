@@ -18,6 +18,13 @@ menuconfig SYSCON
 
 if SYSCON
 
+config SYSCON_ARTINCHIP
+	bool "ArtInChip system configuration controller"
+	default y
+	depends on DT_HAS_ARTINCHIP_D13X_SYSCFG_ENABLED
+	depends on CLOCK_CONTROL
+	depends on RESET
+
 module = SYSCON
 module-str = syscon
 source "subsys/logging/Kconfig.template.log_config"

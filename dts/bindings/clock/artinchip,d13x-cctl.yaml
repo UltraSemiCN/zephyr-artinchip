@@ -1,0 +1,62 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+title: ArtInChip D13x Clock Controller
+
+description: Controls D13x peripheral clock gates and reports divided clock rates
+
+compatible: "artinchip,d13x-cctl"
+
+include: [clock-controller.yaml, base.yaml]
+
+properties:
+  "#clock-cells":
+    const: 1
+
+  clock-frequency:
+    type: int
+    required: true
+    description: Parent PLL_INT1 clock frequency in Hz
+
+  artinchip,uart0-clock-frequency:
+    type: int
+    required: true
+    description: UART0 target clock frequency in Hz
+
+  artinchip,qspi-clock-frequency:
+    type: int
+    description: |
+      QSPI controller input clock frequency in Hz. The initial clock driver
+      preserves the bootloader-programmed PLL_FRA0 divider and uses this
+      value when reporting the QSPI clock rate.
+
+  artinchip,apb0-clock-frequency:
+    type: int
+    description: APB0 peripheral clock frequency in Hz
+
+  artinchip,apb1-clock-frequency:
+    type: int
+    description: APB1 peripheral clock frequency in Hz
+
+  artinchip,pwm-clock-frequency:
+    type: int
+    description: PWM controller input clock frequency in Hz
+
+  artinchip,xspi-clock-frequency:
+    type: int
+    description: Bootloader-configured XSPI controller input clock frequency in Hz
+
+  artinchip,display-sclk-clock-frequency:
+    type: int
+    description: |
+      Display serial clock frequency in Hz. D12P uses this for its display
+      outputs. D13x single-link LVDS requires seven times the pixel clock.
+
+  artinchip,display-pixclk-clock-frequency:
+    type: int
+    description: |
+      Display pixel clock frequency in Hz for the display engine timing path.
+      Supported by D12P display outputs and D13x single-link LVDS.
+
+clock-cells:
+  - clkid

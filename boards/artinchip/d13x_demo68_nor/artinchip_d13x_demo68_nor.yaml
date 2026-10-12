@@ -1,0 +1,12 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+identifier: artinchip_d13x_demo68_nor/d13x
+name: ArtInChip D13X demo68-nor
+type: mcu
+arch: riscv
+toolchain:
+  - zephyr
+ram: 256
+supported:
+  - serial

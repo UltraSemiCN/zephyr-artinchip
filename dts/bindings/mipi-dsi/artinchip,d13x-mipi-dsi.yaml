@@ -1,0 +1,28 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+description: ArtInChip D13x MIPI DSI host controller
+
+compatible: "artinchip,d13x-mipi-dsi"
+
+include: [mipi-dsi-host.yaml, pinctrl-device.yaml, reset-device.yaml]
+
+properties:
+  reg:
+    required: true
+
+  clocks:
+    required: true
+
+  interrupts:
+    required: true
+
+  phy-clock:
+    required: true
+
+  artinchip,manual-phy-start:
+    type: boolean
+    description:
+      Defer DSI PHY initialization from mipi_dsi_attach() to the ArtInChip DSI
+      shell diagnostics. This is useful while validating boards where analog
+      PHY registers may not be safe to touch during panel initialization.

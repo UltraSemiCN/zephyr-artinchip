@@ -1,0 +1,5 @@
+description: ArtInChip D12P MIPI DSI host controller
+
+compatible: "artinchip,d12p-mipi-dsi"
+
+include: artinchip,d13x-mipi-dsi.yaml

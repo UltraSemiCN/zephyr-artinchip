@@ -3,6 +3,7 @@
 zephyr_library()
 
 # zephyr-keep-sorted-start
+zephyr_library_sources_ifdef(CONFIG_AUDIO_CODEC_ARTINCHIP codec_artinchip.c)
 zephyr_library_sources_ifdef(CONFIG_AUDIO_CODEC_AW88298 aw88298.c)
 zephyr_library_sources_ifdef(CONFIG_AUDIO_CODEC_CS35L5X cs35l5x.c)
 zephyr_library_sources_ifdef(CONFIG_AUDIO_CODEC_CS35LXX cs35lxx.c)

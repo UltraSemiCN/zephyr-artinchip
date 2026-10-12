@@ -41,11 +41,13 @@ void arch_dcache_enable(void)
 	__asm__ volatile (
 		"fence\n"
 		"fence.i\n"
-		"th.dcache.iall\n"
-	);
-	__asm__ volatile(
 		"csrr %0, " THEAD_MHCR
 		: "=r"(tmp));
+	/* Preserve early startup writes only when inheriting an enabled cache. */
+	if ((tmp & (1 << 1)) != 0U) {
+		__asm__ volatile ("th.dcache.call\n" "fence\n" ::: "memory");
+	}
+	__asm__ volatile ("th.dcache.iall\n" ::: "memory");
 	tmp |= (1 << 1) | (1 << 2) | (1 << 3) | (1 << 4);
 	__asm__ volatile(
 		"csrw " THEAD_MHCR ", %0"
@@ -101,4 +103,14 @@ void arch_dcache_disable(void)
 		"fence\n"
 		"fence.i\n"
 	);
+}
+
+void arch_cache_init(void)
+{
+	if (IS_ENABLED(CONFIG_ICACHE)) {
+		arch_icache_enable();
+	}
+	if (IS_ENABLED(CONFIG_DCACHE)) {
+		arch_dcache_enable();
+	}
 }

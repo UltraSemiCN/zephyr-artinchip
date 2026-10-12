@@ -1,0 +1,130 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+config DISPLAY_ARTINCHIP_DE
+	bool "ArtInChip display engine driver"
+	default y
+	depends on DT_HAS_ARTINCHIP_D13X_DE_ENABLED
+	depends on CLOCK_CONTROL
+	depends on RESET
+	help
+	  Enable the ArtInChip display engine framebuffer bridge.
+
+config DISPLAY_ARTINCHIP_DE_SHELL
+	bool "ArtInChip display engine shell commands"
+	depends on DISPLAY_ARTINCHIP_DE
+	depends on SHELL
+	help
+	  Enable diagnostic shell commands for the ArtInChip display engine.
+
+config DISPLAY_ARTINCHIP_RGB
+	bool "ArtInChip RGB output driver"
+	default y
+	depends on DT_HAS_ARTINCHIP_D13X_RGB_ENABLED
+	depends on CLOCK_CONTROL
+	depends on RESET
+	select PINCTRL
+	help
+	  Enable the ArtInChip RGB/LCD output block used between DE timing
+	  output and parallel RGB panels.
+
+config DISPLAY_ARTINCHIP_RGB_SHELL
+	bool "ArtInChip RGB output shell commands"
+	depends on DISPLAY_ARTINCHIP_RGB
+	depends on SHELL
+	help
+	  Enable diagnostic shell commands for the ArtInChip RGB output block.
+
+config EK79007AD
+	bool "Fitipower EK79007AD MIPI-DSI panel"
+	default y
+	depends on DT_HAS_FITIPOWER_EK79007AD_ENABLED
+	depends on MIPI_DSI
+	help
+	  Enable the 7-inch 1024x600 MIPI-DSI panel used by ArtInChip
+	  D12p reference boards.
+
+if EK79007AD
+
+config DISPLAY_EK79007AD_INIT_PRIORITY
+	int "EK79007AD init priority"
+	default 86
+	help
+	  EK79007AD display panel initialization priority.
+
+config EK79007AD_DEFER_PANEL_INIT
+	bool "Defer EK79007AD DCS init until DSI display enable sequence"
+	default y
+	depends on MIPI_DSI_ARTINCHIP_SHELL || MIPI_DSI_ARTINCHIP_AUTO_ENABLE_SEQUENCE
+	help
+	  When enabled, boot only configures panel GPIOs. The DSI display
+	  enable sequence attaches the panel, sends DCS init in command mode,
+	  and switches to video mode.
+
+endif # EK79007AD
+
+config DISPLAY_ARTINCHIP_POS_PANEL
+	bool "ArtInChip 720x1280 multi-vendor POS MIPI-DSI panel"
+	default y
+	depends on DT_HAS_ARTINCHIP_POS_PANEL_ENABLED
+	depends on MIPI_DSI
+	help
+	  Enable the portrait POS panel family. The driver reads DCS register
+	  0xDA and selects the ID 0x17, 0x57, 0x11, or 0x1313 init sequence.
+
+if DISPLAY_ARTINCHIP_POS_PANEL
+
+config DISPLAY_ARTINCHIP_POS_PANEL_INIT_PRIORITY
+	int "POS panel init priority"
+	default 86
+
+config ARTINCHIP_POS_PANEL_DEFER_PANEL_INIT
+	bool "Defer POS panel DCS init until the DSI enable sequence"
+	default y
+	depends on DISPLAY_ARTINCHIP_POS_PIPELINE
+
+endif # DISPLAY_ARTINCHIP_POS_PANEL
+
+config DISPLAY_ARTINCHIP_POS_PIPELINE
+	bool "ArtInChip POS DSI display pipeline"
+	default y
+	depends on DT_HAS_ARTINCHIP_POS_DISPLAY_PIPELINE_ENABLED
+	depends on DISPLAY_ARTINCHIP_DE
+	depends on DISPLAY_ARTINCHIP_POS_PANEL
+	depends on MIPI_DSI_ARTINCHIP
+	help
+	  Enable the board-level coordinator which attaches the POS panel to the
+	  generic DSI host, prepares the PHY, initializes the panel, starts the
+	  display engine, and enables the panel backlight.
+
+if DISPLAY_ARTINCHIP_POS_PIPELINE
+
+config DISPLAY_ARTINCHIP_POS_PIPELINE_INIT_PRIORITY
+	int "POS display pipeline init priority"
+	default 90
+
+config DISPLAY_ARTINCHIP_POS_PIPELINE_TEST_PATTERN
+	bool "Show RGB color bars before the application draws"
+	help
+	  Fill the DE framebuffer with persistent RGB565 color bars. This is useful
+	  for panel/DSI diagnostics when the application does not refresh LVGL.
+
+endif # DISPLAY_ARTINCHIP_POS_PIPELINE
+
+config DISPLAY_ARTINCHIP_LVDS
+	bool "ArtInChip D13x single-link LVDS output"
+	default y
+	depends on DT_HAS_ARTINCHIP_D13X_LVDS_ENABLED
+	depends on DISPLAY_ARTINCHIP_DE
+	depends on CLOCK_CONTROL && RESET && GPIO
+	select PINCTRL
+	help
+	  Enable LVDS link 0, the display engine and panel enable GPIO.
+	  Supports VESA 24-bit and JEIDA 18/24-bit panels.
+
+config DISPLAY_ARTINCHIP_LVDS_INIT_PRIORITY
+	int "ArtInChip LVDS initialization priority"
+	default 90
+	depends on DISPLAY_ARTINCHIP_LVDS
+	help
+	  Must run after the display engine and before LVGL initialization.

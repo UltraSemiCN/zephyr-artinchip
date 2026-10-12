@@ -1,0 +1,9 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+board:
+  name: artinchip_d12p_usbdisp_demo88_nor
+  full_name: ArtInChip D12p USB Display Demo88 NOR
+  vendor: artinchip
+  socs:
+    - name: d125ccr

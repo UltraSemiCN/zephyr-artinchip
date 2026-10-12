@@ -1,0 +1,22 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+title: ArtInChip D13x system configuration registers
+
+description: |
+  Miscellaneous chip-level configuration registers for resources such as
+  SRAM, USB, GMAC, debug routing, and internal voltage controls.
+
+compatible: "artinchip,d13x-syscfg"
+
+include: [base.yaml, reset-device.yaml]
+
+properties:
+  reg:
+    required: true
+
+  clocks:
+    required: true
+
+  resets:
+    required: true

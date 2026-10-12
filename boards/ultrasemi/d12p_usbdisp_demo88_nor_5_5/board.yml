@@ -1,0 +1,9 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+board:
+  name: ultrasemi_d12p_usbdisp_demo88_nor_5_5
+  full_name: UltraSemi D12P USB Display Demo88 NOR 5.5-inch (720x1280 MIPI)
+  vendor: ultrasemi
+  socs:
+    - name: d125ccv

@@ -1,0 +1,36 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+description: ArtInChip D13x SD/MMC host controller
+
+compatible: "artinchip,d13x-sdmc"
+
+include:
+  - sdhc.yaml
+  - reset-device.yaml
+  - pinctrl-device.yaml
+
+properties:
+  reg:
+    required: true
+
+  clocks:
+    required: true
+
+  interrupts:
+    required: true
+
+  bus-width:
+    type: int
+    default: 4
+    enum: [1, 4, 8]
+
+  artinchip,drive-phase:
+    type: int
+    default: 3
+    enum: [0, 1, 2, 3]
+
+  artinchip,sample-phase:
+    type: int
+    default: 0
+    enum: [0, 1, 2, 3]

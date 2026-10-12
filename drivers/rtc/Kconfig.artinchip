@@ -1,0 +1,10 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+config RTC_ARTINCHIP
+	bool "ArtInChip RTC driver"
+	default y
+	depends on DT_HAS_ARTINCHIP_D13X_RTC_ENABLED
+	depends on CLOCK_CONTROL && RESET
+	help
+	  Enable the real-time clock driver for ArtInChip SoCs.

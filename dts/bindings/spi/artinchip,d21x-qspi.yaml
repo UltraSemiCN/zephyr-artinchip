@@ -1,0 +1,6 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi
+# SPDX-License-Identifier: Apache-2.0
+
+description: ArtInChip D21x spi controller (UART, GPIO and QSPI bring-up)
+compatible: "artinchip,d21x-qspi"
+include: artinchip,d13x-qspi.yaml

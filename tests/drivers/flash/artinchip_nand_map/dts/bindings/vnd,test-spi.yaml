@@ -1,0 +1,4 @@
+# SPDX-License-Identifier: Apache-2.0
+description: SPI NAND protocol test backend
+compatible: "vnd,test-spi"
+include: spi-controller.yaml

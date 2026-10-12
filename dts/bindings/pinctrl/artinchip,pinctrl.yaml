@@ -1,0 +1,48 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+title: ArtInChip Pin Controller
+
+description: Controls ArtInChip pin functions, pull resistors, and drive strength
+
+compatible: "artinchip,pinctrl"
+
+include: [base.yaml, reset-device.yaml]
+
+properties:
+  reg:
+    required: true
+
+child-binding:
+  child-binding:
+    include:
+      - name: pincfg-node.yaml
+        property-allowlist:
+          - bias-disable
+          - bias-pull-down
+          - bias-pull-up
+
+    properties:
+      pinmux:
+        required: true
+        type: array
+        description: |
+          Pin selections encoded with ARTINCHIP_PINMUX().
+
+          The cell layout follows the ArtInChip luban-lite FDT pinmux
+          convention:
+
+            bits [31:24]: GPIO group index
+            bits [23:16]: pin index within the group
+            bits [15:8]: alternate function
+            bits [7:4]: pull setting
+            bits [3:0]: drive strength
+
+          Zephyr pin configuration properties in this node, such as bias-* and
+          artinchip,drive-strength, are used as the applied pull and drive
+          settings.
+
+      artinchip,drive-strength:
+        type: int
+        default: 3
+        description: Hardware drive strength index from 0 through 7

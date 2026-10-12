@@ -1,0 +1,74 @@
+/*
+ * SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+/dts-v1/;
+
+#include <artinchip/g73x.dtsi>
+
+/* Luban-Lite c06865a38ca8bcffa337eee7b209651abacf45d6: target/g73x/demo100-nor. */
+/ {
+	model = "ArtInChip G73X demo100-nor";
+	compatible = "artinchip,g73x-demo100-nor";
+
+	chosen {
+		zephyr,sram = &sram0;
+		zephyr,console = &uart0;
+		zephyr,shell-uart = &uart0;
+	};
+};
+
+&sram0 {
+	reg = <0x30040000 0xc0000>;
+};
+
+&uart0 {
+	status = "okay";
+};
+
+/* Bootloader-owned NOR metadata, not a runtime flash driver. */
+/ {
+	aliases {
+		airburn-flash = &norflash0;
+	};
+};
+
+&qspi0 {
+	norflash0: nor-flash@0 {
+		compatible = "jedec,spi-nor";
+		reg = <0>;
+		spi-max-frequency = <DT_FREQ_M(50)>;
+		size = <0x1000000>; /* bits */
+		partitions {
+			compatible = "fixed-partitions";
+			#address-cells = <1>;
+			#size-cells = <1>;
+
+			spl_partition: partition@0 {
+				label = "spl";
+				reg = <0x0 0x80000>;
+			};
+
+			env_partition: partition@80000 {
+				label = "env";
+				reg = <0x80000 0x20000>;
+			};
+
+			env_r_partition: partition@a0000 {
+				label = "env_r";
+				reg = <0xa0000 0x20000>;
+			};
+
+			os_partition: partition@c0000 {
+				label = "os";
+				reg = <0xc0000 0x80000>;
+			};
+
+			os_r_partition: partition@140000 {
+				label = "os_r";
+				reg = <0x140000 0x80000>;
+			};
+		};
+	};
+};

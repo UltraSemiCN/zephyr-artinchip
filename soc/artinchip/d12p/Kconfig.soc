@@ -1,0 +1,101 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+config SOC_SERIES_D12P
+	bool
+	select SOC_FAMILY_ARTINCHIP
+	help
+	  Enable support for the ArtInChip D12p SoC series.
+
+config SOC_SERIES
+	default "d12p" if SOC_SERIES_D12P
+
+config SOC_D121BAV
+	bool
+	select SOC_SERIES_D12P
+
+config SOC_D121BBV
+	bool
+	select SOC_SERIES_D12P
+
+config SOC_D121BCV
+	bool
+	select SOC_SERIES_D12P
+
+config SOC_D122BAV
+	bool
+	select SOC_SERIES_D12P
+
+config SOC_D122BBV
+	bool
+	select SOC_SERIES_D12P
+
+config SOC_D122BCV
+	bool
+	select SOC_SERIES_D12P
+
+config SOC_D123BAV
+	bool
+	select SOC_SERIES_D12P
+
+config SOC_D123BBV
+	bool
+	select SOC_SERIES_D12P
+
+config SOC_D123BCV
+	bool
+	select SOC_SERIES_D12P
+
+config SOC_D125CBR
+	bool
+	select SOC_SERIES_D12P
+
+config SOC_D125CCV
+	bool
+	select SOC_SERIES_D12P
+
+config SOC_D125CCR
+	bool
+	select SOC_SERIES_D12P
+
+config SOC_D125DDR
+	bool
+	select SOC_SERIES_D12P
+
+config SOC_D125EDR
+	bool
+	select SOC_SERIES_D12P
+
+config SOC_D126FBV
+	bool
+	select SOC_SERIES_D12P
+
+config SOC_D126FCV
+	bool
+	select SOC_SERIES_D12P
+
+config SOC
+	default "d121bav" if SOC_D121BAV
+	default "d121bbv" if SOC_D121BBV
+	default "d121bcv" if SOC_D121BCV
+	default "d122bav" if SOC_D122BAV
+	default "d122bbv" if SOC_D122BBV
+	default "d122bcv" if SOC_D122BCV
+	default "d123bav" if SOC_D123BAV
+	default "d123bbv" if SOC_D123BBV
+	default "d123bcv" if SOC_D123BCV
+	default "d125cbr" if SOC_D125CBR
+	default "d125ccv" if SOC_D125CCV
+	default "d125ccr" if SOC_D125CCR
+	default "d125ddr" if SOC_D125DDR
+	default "d125edr" if SOC_D125EDR
+	default "d126fbv" if SOC_D126FBV
+	default "d126fcv" if SOC_D126FCV
+
+# Family target for SDK boards without a fixed package selection.
+config SOC_D12P
+	bool
+	select SOC_SERIES_D12P
+
+config SOC
+	default "d12p" if SOC_D12P

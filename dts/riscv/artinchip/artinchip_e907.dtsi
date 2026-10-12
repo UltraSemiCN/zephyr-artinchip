@@ -1,0 +1,70 @@
+/*
+ * SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+#include <freq.h>
+#include <mem.h>
+
+/ {
+	#address-cells = <1>;
+	#size-cells = <1>;
+
+	cpus {
+		#address-cells = <1>;
+		#size-cells = <0>;
+		timebase-frequency = <DT_FREQ_M(480)>;
+
+		cpu0: cpu@0 {
+			compatible = "xuantie,e907", "riscv";
+			device_type = "cpu";
+			reg = <0>;
+			riscv,isa-base = "rv32i";
+			riscv,isa-extensions = "i", "m", "a", "f", "d", "c",
+					       "zicsr", "zifencei", "xtheadcmo";
+			i-cache-line-size = <32>;
+			d-cache-line-size = <32>;
+			status = "okay";
+
+			#address-cells = <1>;
+			#size-cells = <1>;
+
+			clic: interrupt-controller@20800000 {
+				compatible = "nuclei,eclic";
+				reg = <0x20800000 0x10000>;
+				#address-cells = <0>;
+				#interrupt-cells = <2>;
+				interrupt-controller;
+			};
+		};
+	};
+
+	/*
+	 * Common physical SRAM window. A board DTS must override its size to
+	 * account for bootloader and other firmware reservations.
+	 */
+	sram0: memory@30040000 {
+		compatible = "mmio-sram";
+		reg = <0x30040000 DT_SIZE_M(1)>;
+	};
+
+	soc {
+		compatible = "simple-bus";
+		#address-cells = <1>;
+		#size-cells = <1>;
+		ranges;
+
+		/*
+		 * Xuantie E907 timer (same layout as bl61x/bl808: MTIME @ +0xbff8,
+		 * MTIMECMP @ CPU_BASE+0x4000). Counter runs at 4 MHz — see
+		 * luban-lite drv_get_sys_freq() = CLOCK_4M, not CPU 480 MHz.
+		 */
+		mtimer: timer@2000bff8 {
+			compatible = "riscv,machine-timer";
+			reg = <0x2000bff8 0x8 0x20004000 0x8>;
+			reg-names = "mtime", "mtimecmp";
+			clock-frequency = <DT_FREQ_M(4)>;
+			interrupts-extended = <&clic 7 1>;
+		};
+	};
+};

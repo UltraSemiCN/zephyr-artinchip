@@ -1,0 +1,16 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+identifier: ultrasemi_d12p_usbdisp_demo88_nor_5_5
+name: UltraSemi D12P USB Display Demo88 NOR 5.5-inch (720x1280 MIPI)
+type: mcu
+arch: riscv
+toolchain:
+  - zephyr
+ram: 768
+supported:
+  - gpio
+  - i2c
+  - input
+  - serial
+  - display

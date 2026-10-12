@@ -1,0 +1,6 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+config BOARD_ULTRASEMI_D12P_USBDISP_DEMO88_NOR_5_5
+	select SOC_D125CCV
+	select SOC_RESET_HOOK if MCUBOOT

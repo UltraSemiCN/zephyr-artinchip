@@ -1,0 +1,25 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+description: ArtInChip bootloader-configured UART v1.0/v1.1/v1.4 register subset
+
+compatible: "artinchip,boot-uart"
+
+include: uart-controller.yaml
+
+properties:
+  reg:
+    required: true
+
+  interrupts:
+    required: true
+
+  current-speed:
+    required: true
+
+  artinchip,bootloader-configured:
+    type: boolean
+    required: true
+    description: |
+      The pre-boot firmware configured the UART clock, reset, pin multiplexing,
+      baud rate, framing, and FIFO before starting Zephyr.

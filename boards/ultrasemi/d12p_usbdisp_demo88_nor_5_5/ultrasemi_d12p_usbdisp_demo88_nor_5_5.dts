@@ -1,0 +1,175 @@
+/*
+ * SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+/dts-v1/;
+
+#include <artinchip/d12p.dtsi>
+#include <zephyr/dt-bindings/gpio/gpio.h>
+#include <zephyr/dt-bindings/mipi_dsi/mipi_dsi.h>
+#include "ultrasemi_d12p_usbdisp_demo88_nor_5_5-pinctrl.dtsi"
+
+/ {
+	model = "UltraSemi D12P USB Display Demo88 NOR 5.5-inch (720x1280 MIPI)";
+	compatible = "ultrasemi,d12p-usbdisp-demo88-nor-5-5";
+
+	chosen {
+		zephyr,sram = &psram_app;
+		zephyr,console = &uart0;
+		zephyr,shell-uart = &uart0;
+		zephyr,display = &de;
+	};
+
+	psram_app: memory@40200000 {
+		compatible = "mmio-sram";
+		reg = <0x40200000 DT_SIZE_M(14)>;
+	};
+
+	psram0: memory@40000000 {
+		compatible = "zephyr,memory-region";
+		reg = <0x40000000 DT_SIZE_M(16)>;
+		zephyr,memory-region = "PSRAM";
+	};
+
+	display_pipeline: display-pipeline {
+		compatible = "artinchip,pos-display-pipeline";
+		dsi-host = <&mipi_dsi>;
+		panel = <&panel_5_5inch>;
+		display-engine = <&de>;
+		status = "okay";
+	};
+};
+
+&uart0 {
+	/delete-property/ artinchip,bootloader-configured;
+	clocks = <&cctl ARTINCHIP_CLK_UART0>;
+	resets = <&rctl ARTINCHIP_RESET_UART0>;
+	pinctrl-0 = <&uart0_default>;
+	pinctrl-names = "default";
+	status = "okay";
+};
+
+&i2c1 {
+	pinctrl-0 = <&i2c1_default>;
+	pinctrl-names = "default";
+	status = "okay";
+
+	gt911: gt911@5d {
+		compatible = "goodix,gt911";
+		reg = <0x5d>;
+		alt-addr = <0x14>;
+		reset-gpios = <&gpiod 0 GPIO_ACTIVE_LOW>;
+		irq-gpios = <&gpiod 1 GPIO_ACTIVE_HIGH>;
+		screen-width = <720>;
+		screen-height = <1280>;
+		status = "disabled";
+	};
+};
+
+&cctl {
+	/* Luban: 72 MHz pixel clock * 24-bit RGB888 / 4 DSI lanes. */
+	artinchip,display-sclk-clock-frequency = <DT_FREQ_M(432)>;
+	artinchip,display-pixclk-clock-frequency = <DT_FREQ_M(72)>;
+};
+
+&rgb {
+	status = "disabled";
+};
+
+&mipi_dsi {
+	pinctrl-0 = <&mipi_dsi_default>;
+	pinctrl-names = "default";
+	artinchip,manual-phy-start;
+	phy-clock = <DT_FREQ_M(432)>;
+	status = "okay";
+
+	panel_5_5inch: panel@0 {
+		compatible = "artinchip,pos-panel";
+		reg = <0>;
+		width = <720>;
+		height = <1280>;
+		data-lanes = <4>;
+		pixel-format = <MIPI_DSI_PIXFMT_RGB888>;
+		reset-gpios = <&gpiod 16 GPIO_ACTIVE_LOW>;
+		bl-gpios = <&gpiof 0 GPIO_ACTIVE_HIGH>;
+		hfront-porch = <80>;
+		hback-porch = <84>;
+		hsync-len = <23>;
+		vfront-porch = <19>;
+		vback-porch = <20>;
+		vsync-len = <4>;
+		status = "okay";
+	};
+};
+
+&de {
+	framebuffer-address = <0x40000000>;
+	framebuffer-size = <0x2a3000>;
+	status = "okay";
+	artinchip,manual-start;
+};
+
+/* The bootloader accesses this flash even when Zephyr's QSPI driver is disabled.
+ * Keep the complete AirBurn layout here so overlays and packaging share it.
+ */
+/ {
+	aliases {
+		airburn-flash = &norflash0;
+	};
+};
+
+&qspi0 {
+	norflash0: nor-flash@0 {
+		compatible = "jedec,spi-nor";
+		reg = <0>;
+		spi-max-frequency = <DT_FREQ_M(50)>;
+		/* jedec,spi-nor capacity is in bits: 128 Mbit = 16 MiB. */
+		size = <DT_SIZE_M(128)>;
+
+		partitions {
+			compatible = "fixed-partitions";
+			#address-cells = <1>;
+			#size-cells = <1>;
+
+			spl_partition: partition@0 {
+				label = "spl";
+				reg = <0x0 0x80000>;
+			};
+
+			env_partition: partition@80000 {
+				label = "env";
+				reg = <0x80000 0x20000>;
+			};
+
+			env_r_partition: partition@a0000 {
+				label = "env_r";
+				reg = <0xa0000 0x20000>;
+			};
+
+			userid_partition: partition@c0000 {
+				label = "userid";
+				reg = <0xc0000 0x40000>;
+			};
+
+			os_partition: partition@100000 {
+				label = "os";
+				reg = <0x100000 0x300000>;
+			};
+
+			rodata_partition: partition@400000 {
+				label = "rodata";
+				reg = <0x400000 0xa00000>;
+			};
+
+			storage_partition: partition@e00000 {
+				label = "data";
+				reg = <0xe00000 0x200000>;
+			};
+		};
+	};
+};
+
+&cctl {
+	artinchip,qspi-clock-frequency = <198000000>;
+};

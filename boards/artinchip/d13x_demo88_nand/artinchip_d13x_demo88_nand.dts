@@ -1,0 +1,46 @@
+/*
+ * SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+/dts-v1/;
+
+#include <artinchip/d13x.dtsi>
+#include <zephyr/dt-bindings/pinctrl/artinchip-pinctrl.h>
+
+/* Source: Luban-Lite c06865a38ca8bcffa337eee7b209651abacf45d6, target/d13x/demo88-nand. */
+/ {
+	model = "ArtInChip D13X demo88-nand";
+	compatible = "artinchip,d13x-demo88-nand";
+
+	chosen {
+		zephyr,sram = &sram0;
+		zephyr,console = &uart0;
+		zephyr,shell-uart = &uart0;
+	};
+};
+
+&sram0 {
+	reg = <0x30040000 0xc0000>;
+};
+
+&uart0 {
+	status = "okay";
+	pinctrl-0 = <&console_default>;
+	pinctrl-names = "default";
+};
+
+&pinctrl {
+	console_default: console-default {
+		tx {
+			pinmux = <ARTINCHIP_PINMUX(ARTINCHIP_PORT_A, 0, 5)>;
+			bias-disable;
+			artinchip,drive-strength = <3>;
+		};
+		rx {
+			pinmux = <ARTINCHIP_PINMUX(ARTINCHIP_PORT_A, 1, 5)>;
+			bias-pull-up;
+			artinchip,drive-strength = <3>;
+		};
+	};
+};

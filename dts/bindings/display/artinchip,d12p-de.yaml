@@ -1,0 +1,5 @@
+description: ArtInChip D12P display engine
+
+compatible: "artinchip,d12p-de"
+
+include: artinchip,d13x-de.yaml

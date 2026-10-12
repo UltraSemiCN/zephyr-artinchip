@@ -23,8 +23,10 @@
 #include <zephyr/sys/util.h>
 
 #include "spi_nand.h"
+#include "spi_nand_chip.h"
 
 struct spi_nand_config {
+	const struct spi_nand_chip_ops *chip_ops;
 	/* Devicetree SPI configuration */
 	struct spi_dt_spec spi;
 #ifdef CONFIG_FLASH_PAGE_LAYOUT
@@ -289,6 +291,18 @@ static int spi_nand_set_feature(const struct device *dev, uint8_t reg, uint8_t f
 	return spi_nand_feature_op(dev, &out, NULL);
 }
 
+int spi_nand_update_config(const struct device *dev, uint8_t mask, uint8_t value)
+{
+	uint8_t config;
+	int ret = spi_nand_get_feature(dev, SPI_NAND_FEATURE_ADDR_CONFIG, &config);
+
+	if (ret != 0) {
+		return ret;
+	}
+	config = (config & ~mask) | (value & mask);
+	return spi_nand_set_feature(dev, SPI_NAND_FEATURE_ADDR_CONFIG, config);
+}
+
 /* Wait until all operations are complete */
 static int spi_nand_wait_until_ready(const struct device *dev, const char *op, uint32_t timeout_us,
 				     uint32_t poll_us, uint8_t *status)
@@ -352,6 +366,9 @@ static int spi_nand_page_read_to_cache(const struct device *dev, uint32_t page)
 	}
 
 	/* Validate data integrity from ECC */
+	if (config->chip_ops != NULL) {
+		return config->chip_ops->ecc_status(status);
+	}
 	ecc_status = status & SPI_NAND_FEATURE_ECC_MASK;
 	switch (ecc_status) {
 	case SPI_NAND_FEATURE_ECC_ERROR_NOT_CORRECTED:
@@ -967,7 +984,7 @@ static int onfi_parameters_load(const struct device *dev)
 		     sys_le32_to_cpu(onfi.pages_per_block);
 	total_size = block_size * sys_le32_to_cpu(onfi.blocks_per_lun) * onfi.num_lun;
 	if (sys_le32_to_cpu(onfi.data_bytes_per_page) != config->parameters->write_block_size) {
-		LOG_WRN("Devicetree page size does not match ONFI page size (%d != %d)",
+		LOG_WRN("Devicetree page size does not match ONFI page size (%u != %zu)",
 			sys_le32_to_cpu(onfi.data_bytes_per_page),
 			config->parameters->write_block_size);
 	}
@@ -1028,8 +1045,11 @@ static int spi_nand_configure(const struct device *dev)
 		goto release;
 	}
 
-	/* Load the ONFI parameter information */
-	ret = onfi_parameters_load(dev);
+	if (config->chip_ops != NULL) {
+		ret = config->chip_ops->configure(dev);
+	} else {
+		ret = onfi_parameters_load(dev);
+	}
 	if (ret != 0) {
 		goto release;
 	}
@@ -1144,6 +1164,7 @@ static DEVICE_API(flash, spi_nand_api) = {
 	))                                                                                         \
                                                                                                    \
 	static const struct spi_nand_config spi_nand_##idx##_config = {                            \
+		.chip_ops = SPI_NAND_CHIP_OPS(DT_DRV_INST(idx)), \
 		.spi = SPI_DT_SPEC_INST_GET(idx, SPI_WORD_SET(8)),                                 \
 		.parameters = &spi_nand_##idx##_parameters,                                        \
 		.flash_size = DT_INST_PROP(idx, size_bytes),                                       \

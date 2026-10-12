@@ -1,0 +1,26 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+config UDC_AIC
+	bool "ArtInChip USB device controller driver"
+	default y
+	depends on DT_HAS_ARTINCHIP_D12P_USBD_ENABLED
+	select UDC_DRIVER_HAS_HIGH_SPEED_SUPPORT
+	help
+	  USB device controller driver for the ArtInChip USB 2.0 device core
+	  (Synopsys DWC2-derived device-only core with legacy register layout).
+	  Operates in Completer/PIO (slave) transfer mode.
+
+config UDC_AIC_STACK_SIZE
+	int "ArtInChip UDC driver internal thread stack size"
+	depends on UDC_AIC
+	default 1024
+	help
+	  ArtInChip UDC driver internal thread stack size.
+
+config UDC_AIC_THREAD_PRIORITY
+	int "ArtInChip UDC driver thread priority"
+	depends on UDC_AIC
+	default 8
+	help
+	  ArtInChip UDC driver internal thread priority.

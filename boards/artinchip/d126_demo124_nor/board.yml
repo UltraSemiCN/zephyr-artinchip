@@ -1,0 +1,9 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+board:
+  name: artinchip_d126_demo124_nor
+  full_name: ArtInChip D126 Demo124 NOR
+  vendor: artinchip
+  socs:
+    - name: d126fcv

@@ -1,0 +1,8 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+description: ArtInChip D12P RGB display output
+
+compatible: "artinchip,d12p-rgb"
+
+include: artinchip,d13x-rgb.yaml

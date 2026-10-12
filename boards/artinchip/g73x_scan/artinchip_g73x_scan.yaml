@@ -1,0 +1,12 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+identifier: artinchip_g73x_scan/g73x
+name: ArtInChip G73X scan
+type: mcu
+arch: riscv
+toolchain:
+  - zephyr
+ram: 1024
+supported:
+  - serial

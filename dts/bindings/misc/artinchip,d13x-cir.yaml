@@ -1,0 +1,15 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+description: ArtInChip D13x consumer infrared controller
+compatible: "artinchip,d13x-cir"
+
+include: [base.yaml, reset-device.yaml]
+
+properties:
+  reg:
+    required: true
+  clocks:
+    required: true
+  interrupts:
+    required: true
