@@ -1,13 +1,29 @@
 # SPDX-FileCopyrightText: Copyright (c) 2026 UltraSemi Technology Development Co., Ltd.
 # SPDX-License-Identifier: Apache-2.0
 
-description: ArtInChip D12p USB 2.0 device controller (Synopsys DWC2 OTG)
+description: ArtInChip D12P USB 2.0 device controller
 
 compatible: "artinchip,d12p-usbd"
 
-include: ["snps,dwc2.yaml"]
+include: usb-controller.yaml
 
 properties:
+  reg:
+    required: true
+
+  interrupts:
+    required: true
+
+  num-in-eps:
+    type: int
+    required: true
+    description: Number of IN endpoints, including control endpoint zero.
+
+  num-out-eps:
+    type: int
+    required: true
+    description: Number of OUT endpoints, including control endpoint zero.
+
   clocks:
     required: true
 

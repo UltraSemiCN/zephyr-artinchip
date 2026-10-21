@@ -6,6 +6,7 @@
 #define DT_DRV_COMPAT artinchip_pos_display_pipeline
 
 #include <zephyr/device.h>
+#include <zephyr/drivers/display.h>
 #include <zephyr/drivers/display/artinchip_de.h>
 #include <zephyr/drivers/display/artinchip_pos_panel.h>
 #include <zephyr/drivers/mipi_dsi/artinchip_dsi.h>
@@ -51,7 +52,7 @@ static int artinchip_pos_pipeline_init(const struct device *dev)
 	}
 
 	LOG_DBG("starting DE bringup");
-	ret = artinchip_de_bringup(config->de, 0xF800U);
+	ret = artinchip_de_bringup(config->de, 0x0000U);
 	if (ret != 0) {
 		LOG_ERR("DE bring-up failed: %d", ret);
 		return ret;
@@ -70,6 +71,18 @@ static int artinchip_pos_pipeline_init(const struct device *dev)
 	if (ret != 0) {
 		LOG_ERR("panel backlight enable failed: %d", ret);
 		return ret;
+	}
+
+	/*
+	 * Stop DE scan-out until the first LVGL frame is in the FB.
+	 * Do not toggle panel DCS / DSI videomode here: that path is racy on
+	 * this PHY (LP-stop timeouts, R/B swap, occasional black screen).
+	 */
+	if (!IS_ENABLED(CONFIG_DISPLAY_ARTINCHIP_POS_PIPELINE_TEST_PATTERN)) {
+		ret = display_blanking_on(config->de);
+		if (ret != 0) {
+			LOG_WRN("DE blanking_on failed: %d (continuing)", ret);
+		}
 	}
 
 	LOG_INF("POS display pipeline ready");

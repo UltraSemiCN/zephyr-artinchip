@@ -34,10 +34,12 @@ struct artinchip_pos_panel_config {
 enum pos_cmd_type {
 	POS_DCS,
 	POS_GENERIC,
+	POS_DELAY,
 };
 
 struct pos_cmd {
 	uint8_t type;
+	/* Payload length, or milliseconds for POS_DELAY. */
 	uint8_t len;
 	uint8_t data[64];
 };
@@ -106,6 +108,11 @@ static int pos_run_sequence(const struct device *dev, const struct pos_cmd *sequ
 		const struct pos_cmd *entry = &sequence[i];
 		int ret;
 
+		if (entry->type == POS_DELAY) {
+			k_msleep(entry->len);
+			continue;
+		}
+
 		if (entry->type == POS_GENERIC) {
 			ret = pos_generic_write(dev, entry->data, entry->len + 1U);
 		} else {
@@ -150,7 +157,8 @@ static int pos_read_panel_id(const struct device *dev, uint16_t *panel_id)
 	}
 
 	*panel_id = (uint16_t)response[0] | ((uint16_t)response[1] << 8);
-	if ((*panel_id & 0xffU) == 0x11U || (*panel_id & 0xffU) == 0x17U ||
+	if ((*panel_id & 0xffU) == 0x01U || (*panel_id & 0xffU) == 0x03U ||
+	    (*panel_id & 0xffU) == 0x11U || (*panel_id & 0xffU) == 0x17U ||
 	    (*panel_id & 0xffU) == 0x57U) {
 		*panel_id &= 0xffU;
 	}
@@ -169,6 +177,7 @@ static int artinchip_pos_panel_init_sequence(const struct device *dev)
 		.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
 			      MIPI_DSI_MODE_LPM,
 	};
+	bool run_common_tail = true;
 	uint16_t panel_id = 0x11U;
 	int ret = pos_read_panel_id(dev, &panel_id);
 
@@ -178,6 +187,19 @@ static int artinchip_pos_panel_init_sequence(const struct device *dev)
 	}
 
 	switch (panel_id) {
+	case 0x01:
+	case 0x03:
+		sequence = panel_id == 0x01U ? pos_id01_init : pos_id03_init;
+		count = panel_id == 0x01U ? ARRAY_SIZE(pos_id01_init) :
+					   ARRAY_SIZE(pos_id03_init);
+		mdev.timings.hfp = 80;
+		mdev.timings.hbp = 80;
+		mdev.timings.hsync = 14;
+		mdev.timings.vfp = 15;
+		mdev.timings.vbp = 15;
+		mdev.timings.vsync = 4;
+		run_common_tail = false;
+		break;
 	case 0x17:
 		sequence = pos_id17_init;
 		count = ARRAY_SIZE(pos_id17_init);
@@ -224,6 +246,10 @@ static int artinchip_pos_panel_init_sequence(const struct device *dev)
 		LOG_ERR("POS panel init sequence failed at ID 0x%04x: %d", panel_id, ret);
 		return ret;
 	}
+	if (!run_common_tail) {
+		return 0;
+	}
+
 	ret = artinchip_pos_panel_write_u8(dev, 0x36, 0x00);
 	if (ret != 0) {
 		return ret;
@@ -310,6 +336,29 @@ int artinchip_pos_panel_backlight_enable(const struct device *dev)
 	}
 
 	return gpio_pin_set_dt(&config->backlight, 1);
+}
+
+int artinchip_pos_panel_set_display(const struct device *dev, bool on)
+{
+	const struct artinchip_pos_panel_config *config = dev->config;
+	int ret;
+	int ret_video;
+
+	/* DCS needs LP/command mode; video HS clock blocks PHY LP-stop waits. */
+	ret = artinchip_dsi_set_videomode(config->mipi_dsi, false);
+	if (ret != 0) {
+		return ret;
+	}
+
+	ret = artinchip_pos_panel_write(
+		dev, on ? MIPI_DCS_SET_DISPLAY_ON : MIPI_DCS_SET_DISPLAY_OFF, NULL, 0U);
+
+	ret_video = artinchip_dsi_set_videomode(config->mipi_dsi, true);
+	if (ret != 0) {
+		return ret;
+	}
+
+	return ret_video;
 }
 
 int artinchip_pos_panel_attach_dsi(const struct device *dev)

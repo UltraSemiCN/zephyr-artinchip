@@ -60,12 +60,8 @@
 		interrupts = <34 1>;
 		interrupt-names = "device";
 		artinchip,syscfg = <&syscfg>;
-		/* GHWCFG values seed endpoint tables before MMIO is safe; refine on hardware. */
 		num-out-eps = <4>;
 		num-in-eps = <4>;
-		ghwcfg1 = <0x00000000>;
-		ghwcfg2 = <0x224dd930>;
-		ghwcfg4 = <0xd3f0a030>;
 		status = "disabled";
 	};
 

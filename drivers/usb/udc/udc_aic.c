@@ -68,6 +68,8 @@ struct udc_aic_data {
 	 */
 	uint32_t tx_len[AIC_UDC_MAX_EPS];
 	uint32_t rx_len[AIC_UDC_MAX_EPS];
+	/* Last OUT packet on this endpoint was a zero-length packet. */
+	bool rx_zlp[AIC_UDC_MAX_EPS];
 	/*
 	 * Set once the host has driven a bus reset. A SUSPEND interrupt fired
 	 * before that point is just the idle attached-but-unenumerated bus (for
@@ -554,6 +556,7 @@ static void aic_xfer_start(const struct device *dev,
 
 static void aic_handle_rxflvl(const struct device *dev)
 {
+	struct udc_aic_data *priv = udc_get_private(dev);
 	struct udc_ep_config *ep_cfg;
 	struct net_buf *buf;
 	uint32_t grxstsp;
@@ -579,6 +582,9 @@ static void aic_handle_rxflvl(const struct device *dev)
 		}
 		/* RxFIFO must be drained even when there is no buffer. */
 		aic_read_fifo(dev, ep, buf, bcnt);
+		if (ep < AIC_UDC_MAX_EPS) {
+			priv->rx_zlp[ep] = (bcnt == 0U);
+		}
 		break;
 	default:
 		break;
@@ -602,7 +608,10 @@ static void aic_handle_in_complete(const struct device *dev, uint8_t ep_idx)
 		return;
 	}
 
-	if (ep_cfg->addr == USB_CONTROL_EP_IN && udc_ep_buf_has_zlp(buf)) {
+	/* Bulk IN as well as control: a transfer whose length is a multiple of
+	 * the max packet size is terminated by a zero-length packet.
+	 */
+	if (udc_ep_buf_has_zlp(buf)) {
 		udc_ep_buf_clear_zlp(buf);
 		if (aic_tx_start(dev, ep_cfg, buf) == 0) {
 			return;
@@ -664,12 +673,17 @@ static void aic_handle_out_complete(const struct device *dev, uint8_t ep_idx)
 	}
 	bcnt = priv->rx_len[ep_idx] - rxsize;
 
-	if (bcnt != 0U && (bcnt % udc_mps_ep_size(ep_cfg)) == 0U &&
-	    net_buf_tailroom(buf)) {
-		/* Short packet not yet received, continue the OUT transfer. */
+	/*
+	 * A zero-length packet adds no bytes, so bcnt stays a multiple of the
+	 * max packet size and the buffer still has room. That packet already
+	 * ended the transfer; re-arming here waits forever.
+	 */
+	if (!priv->rx_zlp[ep_idx] && bcnt != 0U &&
+	    (bcnt % udc_mps_ep_size(ep_cfg)) == 0U && net_buf_tailroom(buf)) {
 		aic_prep_rx(dev, ep_cfg, buf);
 		return;
 	}
+	priv->rx_zlp[ep_idx] = false;
 
 	buf = udc_buf_get(ep_cfg);
 	udc_ep_set_busy(ep_cfg, false);

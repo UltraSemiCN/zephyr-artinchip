@@ -19,7 +19,8 @@ LOG_MODULE_DECLARE(lvgl, CONFIG_LV_Z_LOG_LEVEL);
 #define HEAP_MEM_ATTRIBUTES \
 	__attribute__((section(CONFIG_LV_Z_MEMORY_POOL_ZEPHYR_REGION_NAME))) __aligned(8)
 #else
-#define HEAP_MEM_ATTRIBUTES __aligned(8)
+/* sys_heap_init() initializes metadata without clearing the arena. */
+#define HEAP_MEM_ATTRIBUTES __noinit __aligned(8)
 #endif /* CONFIG_LV_Z_MEMORY_POOL_CUSTOM_SECTION */
 static char lvgl_heap_mem[CONFIG_LV_Z_MEM_POOL_SIZE] HEAP_MEM_ATTRIBUTES;
 
